@@ -25,7 +25,7 @@ public class DepartmentControllerTest {
     @Test
     public void createDepartmentWithParentId() throws Exception {
         String json = IOUtils.toString(this.getClass()
-                .getResourceAsStream("/json/request/createDepartmentWithParent.json"), StandardCharsets.UTF_8);
+                .getResourceAsStream("/json/request/department/createDepartmentWithParent.json"), StandardCharsets.UTF_8);
 
         mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -36,7 +36,7 @@ public class DepartmentControllerTest {
     @Test
     public void createDepartment() throws Exception {
         String json = IOUtils.toString(this.getClass()
-                .getResourceAsStream("/json/request/createDepartment.json"), StandardCharsets.UTF_8);
+                .getResourceAsStream("/json/request/department/createDepartment.json"), StandardCharsets.UTF_8);
 
         mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -47,7 +47,7 @@ public class DepartmentControllerTest {
     @Test
     public void createDepartmentNotValidJson() throws Exception {
         String json = IOUtils.toString(this.getClass()
-                .getResourceAsStream("/json/request/notValidCreateDepartment.json"), StandardCharsets.UTF_8);
+                .getResourceAsStream("/json/request/department/notValidCreateDepartment.json"), StandardCharsets.UTF_8);
 
         mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -58,11 +58,15 @@ public class DepartmentControllerTest {
     @Test
     public void createDepartmentWithNotMatchByContentType() throws Exception {
         String json = IOUtils.toString(this.getClass()
-                .getResourceAsStream("/json/request/createDepartment.json"), StandardCharsets.UTF_8);
+                .getResourceAsStream("/json/request/department/createDepartment.json"), StandardCharsets.UTF_8);
 
         mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
                 .contentType(MediaType.APPLICATION_XML)
                 .content(json))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void renameDepartment() {
     }
 }
