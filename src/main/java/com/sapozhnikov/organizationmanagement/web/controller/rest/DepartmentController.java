@@ -40,13 +40,13 @@ public class DepartmentController {
         return ResponseEntity.ok(new GetDepartmentRs());
     }
 
-    @GetMapping(value = NAME_URL + SUBORDINATES_URL + DIRECT_URL,
+    @GetMapping(value = SUBORDINATES_URL + NAME_URL + DIRECT_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable String name){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
-    @GetMapping(value = NAME_URL + SUBORDINATES_URL + ALL_URL,
+    @GetMapping(value = SUBORDINATES_URL + NAME_URL + ALL_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable String name){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
@@ -59,7 +59,7 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = LEAD_URL + NAME_URL , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = LEADERS_URL + NAME_URL , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable String name) {
         return ResponseEntity.ok().build();
     }

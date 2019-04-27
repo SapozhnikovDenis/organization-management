@@ -10,5 +10,6 @@ public class Constant {
     public static final String DIRECT_URL = "/direct";
     public static final String FIRST_NAME_URL = "/{firstName}";
     public static final String SECOND_NAME_URL = "/{secondName}";
+    public static final String LEADERS_URL = "/leaders";
     public static final String LEAD_URL = "/lead";
 }

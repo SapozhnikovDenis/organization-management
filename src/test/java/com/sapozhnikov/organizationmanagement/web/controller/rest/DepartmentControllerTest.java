@@ -83,28 +83,28 @@ public class DepartmentControllerTest {
 
     @Test
     public void getDirectSubordinatesDepartments() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + NAME_URL + SUBORDINATES_URL + DIRECT_URL;
+        String url = API_V_1_DEPARTMENTS_URL + SUBORDINATES_URL + NAME_URL + DIRECT_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getAllSubordinatesDepartments() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + NAME_URL + SUBORDINATES_URL + ALL_URL;
+        String url = API_V_1_DEPARTMENTS_URL + SUBORDINATES_URL + NAME_URL + ALL_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void changeSubordinatesDepartment() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + FIRST_NAME_URL + SUBORDINATES_URL + SECOND_NAME_URL;
+        String url = API_V_1_DEPARTMENTS_URL + FIRST_NAME_URL + LEAD_URL + SECOND_NAME_URL;
         mockDepartmentController.perform(put(url, DEVELOP_DEPARTMENT_NAME, QA_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getLeadDepartments() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + LEAD_URL + NAME_URL;
+        String url = API_V_1_DEPARTMENTS_URL + LEADERS_URL + NAME_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
