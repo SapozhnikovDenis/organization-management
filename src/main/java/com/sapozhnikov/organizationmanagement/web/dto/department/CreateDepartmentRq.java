@@ -11,11 +11,10 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class CreateDepartmentRq {
-
     private String parentId;
     @NotBlank
     private String name;
     @NotNull
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate createDate;
 }
