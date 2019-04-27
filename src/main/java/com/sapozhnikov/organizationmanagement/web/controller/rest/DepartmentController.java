@@ -1,6 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentRs;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -28,8 +29,13 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = ID_URL)
-    public ResponseEntity<Void> removeDepartment(@PathVariable String id){
+    @DeleteMapping(NAME_URL)
+    public ResponseEntity<Void> removeDepartment(@PathVariable String name){
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = NAME_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable String name){
+        return ResponseEntity.ok(new GetDepartmentRs());
     }
 }
