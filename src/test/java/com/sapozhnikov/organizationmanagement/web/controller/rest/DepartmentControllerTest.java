@@ -4,10 +4,8 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENTS_URL;
-import static com.sapozhnikov.organizationmanagement.utils.Constant.RENAME_URL;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -64,5 +62,12 @@ public class DepartmentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void deleteDepartment() throws Exception {
+        mockDepartmentController.perform(delete(API_V_1_DEPARTMENTS_URL + ID_URL,
+                        "69ed2ar08-df99-1010-v88a-79e604b08d00"))
+                .andExpect(status().is2xxSuccessful());
     }
 }
