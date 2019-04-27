@@ -19,8 +19,8 @@ public class EmployeeControllerTest {
 
     @Test
     public void getEmployeesInDepartment() throws Exception {
-        String url = API_V_1_EMPLOYEES_URL + DEPARTMENT_ID_URL;
-        mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
+        mockDepartmentController.perform(get(API_V_1_EMPLOYEES_URL)
+                .param(DEPARTMENT_ID_PARAM, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
 
@@ -78,5 +78,12 @@ public class EmployeeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getEmployee() throws Exception {
+        String url = API_V_1_EMPLOYEES_URL + ID_URL;
+        mockDepartmentController.perform(get(url, EMPLOYEE_ID))
+                .andExpect(status().is2xxSuccessful());
     }
 }

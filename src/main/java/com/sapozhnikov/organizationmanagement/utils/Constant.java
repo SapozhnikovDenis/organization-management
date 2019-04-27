@@ -14,5 +14,6 @@ public class Constant {
 
     public static final String ID_URL = "/{id}";
     public static final String DEPARTMENT_ID_URL = "/{departmentId}";
+    public static final String DEPARTMENT_ID_PARAM  = "departmentId";
     public static final String NAME_PARAM = "name";
 }
