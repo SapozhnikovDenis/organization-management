@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class CreateDepartmentRq {
-    private String parentId;
+    private Long leadId;
     @NotBlank
     private String name;
     @NotNull

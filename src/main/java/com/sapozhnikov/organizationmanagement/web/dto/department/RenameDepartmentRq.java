@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class RenameDepartmentRq {
     @NotBlank
-    private String lastName;
+    private String id;
     @NotBlank
     private String newName;
 }

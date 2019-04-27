@@ -1,5 +1,6 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
+import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeadersDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentRs;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
@@ -30,37 +31,37 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(NAME_URL)
-    public ResponseEntity<Void> removeDepartment(@PathVariable String name){
+    @DeleteMapping(ID_URL)
+    public ResponseEntity<Void> removeDepartment(@PathVariable Long id){
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = NAME_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable String name){
+    @GetMapping(value = ID_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable Long id){
         return ResponseEntity.ok(new GetDepartmentRs());
     }
 
-    @GetMapping(value = SUBORDINATES_URL + NAME_URL + DIRECT_URL,
+    @GetMapping(value = SUBORDINATES_URL + DIRECT_URL + ID_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable String name){
+    public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable Long id){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
-    @GetMapping(value = SUBORDINATES_URL + NAME_URL + ALL_URL,
+    @GetMapping(value = SUBORDINATES_URL + ALL_URL + ID_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable String name){
+    public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable Long id){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
-    @PutMapping(value = FIRST_NAME_URL + SUBORDINATES_URL + SECOND_NAME_URL,
+    @PutMapping(value = LEADERS_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> changeSubordinatesDepartment(@PathVariable String firstName,
-                                                             @PathVariable String secondName) {
+    public ResponseEntity<Void> changeLeadersDepartment(
+            @RequestBody @Valid ChangeLeadersDepartmentRq changeLeadersDepartmentRq) {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = LEADERS_URL + NAME_URL , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable String name) {
+    @GetMapping(value = LEADERS_URL + ID_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable Long id) {
         return ResponseEntity.ok().build();
     }
 }
