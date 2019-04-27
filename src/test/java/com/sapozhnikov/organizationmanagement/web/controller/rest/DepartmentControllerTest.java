@@ -101,4 +101,11 @@ public class DepartmentControllerTest {
         mockDepartmentController.perform(put(url, DEVELOP_DEPARTMENT_NAME, QA_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
+
+    @Test
+    public void getLeadDepartments() throws Exception {
+        String url = API_V_1_DEPARTMENTS_URL + LEAD_URL + NAME_URL;
+        mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
+                .andExpect(status().is2xxSuccessful());
+    }
 }

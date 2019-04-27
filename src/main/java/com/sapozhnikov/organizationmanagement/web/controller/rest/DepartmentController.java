@@ -20,14 +20,12 @@ import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 @RequestMapping(API_V_1_DEPARTMENTS_URL)
 public class DepartmentController {
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createDepartment(@RequestBody @Valid CreateDepartmentRq createDepartmentRq) {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = RENAME_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = RENAME_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> renameDepartment(@RequestBody @Valid RenameDepartmentRq renameDepartmentRq) {
         return ResponseEntity.ok().build();
     }
@@ -58,6 +56,11 @@ public class DepartmentController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> changeSubordinatesDepartment(@PathVariable String firstName,
                                                              @PathVariable String secondName) {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = LEAD_URL + NAME_URL , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable String name) {
         return ResponseEntity.ok().build();
     }
 }
