@@ -2,6 +2,7 @@ package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.web.dto.employee.DismissEmployeeRq;
 import com.sapozhnikov.organizationmanagement.web.dto.employee.Employee;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.TransferEmployeeToDepartmentRq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,11 @@ public class EmployeeController {
     @GetMapping(value = ID_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Employee>> getEmployee(@PathVariable Long id) {
         return ResponseEntity.ok(Collections.singletonList(new Employee()));
+    }
+
+    @PutMapping(value = TRANSFER_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> transferEmployeeToDepartment(
+            @RequestBody TransferEmployeeToDepartmentRq transferEmployeeToDepartmentRq) {
+        return ResponseEntity.ok().build();
     }
 }

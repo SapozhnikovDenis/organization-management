@@ -11,9 +11,9 @@ public class Constant {
     public static final String LEADERS_URL = "/leaders";
     public static final String SALARY_URL = "/salary";
     public static final String DISMISS_URL = "/dismiss";
+    public static final String TRANSFER_URL = "/transfer";
 
     public static final String ID_URL = "/{id}";
-    public static final String DEPARTMENT_ID_URL = "/{departmentId}";
     public static final String DEPARTMENT_ID_PARAM  = "departmentId";
     public static final String NAME_PARAM = "name";
 }

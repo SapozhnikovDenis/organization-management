@@ -86,4 +86,23 @@ public class EmployeeControllerTest {
         mockDepartmentController.perform(get(url, EMPLOYEE_ID))
                 .andExpect(status().is2xxSuccessful());
     }
+
+    @Test
+    public void transferEmployeeToDepartment() throws Exception {
+        String json = TestUtils.readFile("/json/request/employee/transferEmployeeToDepartment.json");
+        mockDepartmentController.perform(put(API_V_1_EMPLOYEES_URL + TRANSFER_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void transferEmployeeNotValidToDepartment() throws Exception {
+        String json = TestUtils.readFile(
+                "/json/request/employee/notValidTransferEmployeeToDepartment.json");
+        mockDepartmentController.perform(put(API_V_1_EMPLOYEES_URL + TRANSFER_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().is4xxClientError());
+    }
 }
