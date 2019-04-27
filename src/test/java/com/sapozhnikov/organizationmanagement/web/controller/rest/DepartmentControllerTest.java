@@ -56,17 +56,6 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void createDepartmentWithNotMatchByContentType() throws Exception {
-        String json = IOUtils.toString(this.getClass()
-                .getResourceAsStream("/json/request/department/createDepartment.json"), StandardCharsets.UTF_8);
-
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
-                .contentType(MediaType.APPLICATION_XML)
-                .content(json))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
     public void renameDepartment() {
     }
 }
