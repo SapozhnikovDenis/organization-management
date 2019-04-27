@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENTS_URL;
 import static com.sapozhnikov.organizationmanagement.utils.Constant.RENAME_URL;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -49,7 +50,7 @@ public class DepartmentControllerTest {
     public void renameDepartment() throws Exception {
         String json = TestUtils.readFile("/json/request/department/renameDepartment.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL + RENAME_URL)
+        mockDepartmentController.perform(put(API_V_1_DEPARTMENTS_URL + RENAME_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is2xxSuccessful());
@@ -59,7 +60,7 @@ public class DepartmentControllerTest {
     public void renameDepartmentNotValidJson() throws Exception {
         String json = TestUtils.readFile("/json/request/department/notValidRenameDepartment.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL + RENAME_URL)
+        mockDepartmentController.perform(put(API_V_1_DEPARTMENTS_URL + RENAME_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is4xxClientError());
