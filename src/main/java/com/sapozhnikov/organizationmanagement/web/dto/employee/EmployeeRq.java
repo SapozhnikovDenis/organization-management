@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class CreateEmployeeRq {
+public class EmployeeRq {
     @NotBlank
     private String firstName;
     @NotBlank

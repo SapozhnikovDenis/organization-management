@@ -1,6 +1,6 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
-import com.sapozhnikov.organizationmanagement.web.dto.employee.CreateEmployeeRq;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.EmployeeRq;
 import com.sapozhnikov.organizationmanagement.web.dto.employee.GetEmployeeRs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
-import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_EMPLOYEES_URL;
-import static com.sapozhnikov.organizationmanagement.utils.Constant.DEPARTMENT_ID_URL;
+import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 
 @Slf4j
 @RestController
@@ -24,7 +23,13 @@ public class EmployeeController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> createEmployee(@RequestBody CreateEmployeeRq createEmployeeRq) {
+    public ResponseEntity<Void> createEmployee(@RequestBody EmployeeRq employeeRq) {
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = ID_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> changeEmployee(@RequestBody EmployeeRq employeeRq,
+                                               @PathVariable Long id) {
         return ResponseEntity.ok().build();
     }
 }
