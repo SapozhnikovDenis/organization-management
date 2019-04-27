@@ -1,9 +1,6 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
-import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeadersDepartmentRq;
-import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
-import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentRs;
-import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
+import com.sapozhnikov.organizationmanagement.web.dto.department.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +39,13 @@ public class DepartmentController {
         return ResponseEntity.ok(new GetDepartmentRs());
     }
 
-    @GetMapping(value = SUBORDINATES_URL + DIRECT_URL + ID_URL,
+    @GetMapping(value = ID_URL + SUBORDINATES_URL + DIRECT_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable Long id){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
-    @GetMapping(value = SUBORDINATES_URL + ALL_URL + ID_URL,
+    @GetMapping(value = ID_URL + SUBORDINATES_URL + ALL_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable Long id){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
@@ -61,7 +58,7 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = LEADERS_URL + ID_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = ID_URL + LEADERS_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable Long id) {
         return ResponseEntity.ok().build();
     }
@@ -69,5 +66,10 @@ public class DepartmentController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam(NAME_PARAM) String name){
         return ResponseEntity.ok(new GetDepartmentRs());
+    }
+
+    @GetMapping(value = ID_URL + SALARY_URL,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@PathVariable Long id){
+        return ResponseEntity.ok(new GetSalaryDepartmentRs());
     }
 }

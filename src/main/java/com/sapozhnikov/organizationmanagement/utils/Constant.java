@@ -9,6 +9,7 @@ public class Constant {
     public static final String ALL_URL = "/all";
     public static final String DIRECT_URL = "/direct";
     public static final String LEADERS_URL = "/leaders";
+    public static final String SALARY_URL = "/salary";
 
     public static final String NAME_PARAM = "name";
 }

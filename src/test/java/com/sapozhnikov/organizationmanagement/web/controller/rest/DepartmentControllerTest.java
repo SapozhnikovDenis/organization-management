@@ -78,14 +78,14 @@ public class DepartmentControllerTest {
 
     @Test
     public void getDirectSubordinatesDepartments() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + SUBORDINATES_URL + DIRECT_URL + ID_URL;
+        String url = API_V_1_DEPARTMENTS_URL + ID_URL + SUBORDINATES_URL + DIRECT_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getAllSubordinatesDepartments() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + SUBORDINATES_URL + ALL_URL + ID_URL;
+        String url = API_V_1_DEPARTMENTS_URL + ID_URL + SUBORDINATES_URL + ALL_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -110,7 +110,7 @@ public class DepartmentControllerTest {
 
     @Test
     public void getLeadDepartments() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + LEADERS_URL + ID_URL;
+        String url = API_V_1_DEPARTMENTS_URL + ID_URL + LEADERS_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -119,6 +119,13 @@ public class DepartmentControllerTest {
     public void getDepartmentByName() throws Exception {
         mockDepartmentController.perform(get(API_V_1_DEPARTMENTS_URL)
                 .param(NAME_PARAM, DEVELOP_DEPARTMENT_NAME))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void getSalaryFullDepartment() throws Exception {
+        String url = API_V_1_DEPARTMENTS_URL + ID_URL + SALARY_URL;
+        mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
 }
