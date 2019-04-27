@@ -53,4 +53,11 @@ public class DepartmentController {
     public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable String name){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
+
+    @PutMapping(value = FIRST_NAME_URL + SUBORDINATES_URL + SECOND_NAME_URL,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> changeSubordinatesDepartment(@PathVariable String firstName,
+                                                             @PathVariable String secondName) {
+        return ResponseEntity.ok().build();
+    }
 }

@@ -8,4 +8,6 @@ public class Constant {
     public static final String SUBORDINATES_URL = "/subordinates";
     public static final String ALL_URL = "/all";
     public static final String DIRECT_URL = "/direct";
+    public static final String FIRST_NAME_URL = "/{firstName}";
+    public static final String SECOND_NAME_URL = "/{secondName}";
 }

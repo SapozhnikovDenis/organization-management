@@ -11,7 +11,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 public class DepartmentControllerTest {
 
-    private static final String DEPARTMENT_NAME = "develop";
+    private static final String DEVELOP_DEPARTMENT_NAME = "develop";
+    private static final String QA_DEPARTMENT_NAME = "qa";
 
     private final MockMvc mockDepartmentController =
             standaloneSetup(new DepartmentController()).build();
@@ -69,28 +70,35 @@ public class DepartmentControllerTest {
     @Test
     public void deleteDepartment() throws Exception {
         String url = API_V_1_DEPARTMENTS_URL + NAME_URL;
-        mockDepartmentController.perform(delete(url, DEPARTMENT_NAME))
+        mockDepartmentController.perform(delete(url, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getDepartment() throws Exception {
         String url = API_V_1_DEPARTMENTS_URL + NAME_URL;
-        mockDepartmentController.perform(get(url, DEPARTMENT_NAME))
+        mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getDirectSubordinatesDepartments() throws Exception {
         String url = API_V_1_DEPARTMENTS_URL + NAME_URL + SUBORDINATES_URL + DIRECT_URL;
-        mockDepartmentController.perform(get(url, DEPARTMENT_NAME))
+        mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getAllSubordinatesDepartments() throws Exception {
         String url = API_V_1_DEPARTMENTS_URL + NAME_URL + SUBORDINATES_URL + ALL_URL;
-        mockDepartmentController.perform(get(url, DEPARTMENT_NAME))
+        mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_NAME))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void changeSubordinatesDepartment() throws Exception {
+        String url = API_V_1_DEPARTMENTS_URL + FIRST_NAME_URL + SUBORDINATES_URL + SECOND_NAME_URL;
+        mockDepartmentController.perform(put(url, DEVELOP_DEPARTMENT_NAME, QA_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 }
