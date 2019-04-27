@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 public class DepartmentControllerTest {
 
+    private static final String DEPARTMENT_NAME = "develop";
+
     private final MockMvc mockDepartmentController =
             standaloneSetup(new DepartmentController()).build();
 
@@ -66,13 +68,22 @@ public class DepartmentControllerTest {
 
     @Test
     public void deleteDepartment() throws Exception {
-        mockDepartmentController.perform(delete(API_V_1_DEPARTMENTS_URL + NAME_URL, "develop"))
+        mockDepartmentController.perform(
+                delete(API_V_1_DEPARTMENTS_URL + NAME_URL, DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getDepartment() throws Exception {
-        mockDepartmentController.perform(get(API_V_1_DEPARTMENTS_URL + NAME_URL, "develop"))
+        mockDepartmentController.perform(
+                get(API_V_1_DEPARTMENTS_URL + NAME_URL, DEPARTMENT_NAME))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void getSubmissionsDepartments() throws Exception {
+        mockDepartmentController.perform(
+                get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBMISSIONS_URL, DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 }

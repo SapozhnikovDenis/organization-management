@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 
 @Slf4j
@@ -37,5 +40,10 @@ public class DepartmentController {
     @GetMapping(value = NAME_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable String name){
         return ResponseEntity.ok(new GetDepartmentRs());
+    }
+
+    @GetMapping(value = NAME_URL + SUBMISSIONS_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<GetDepartmentRs>> getSubmissionsDepartments(@PathVariable String name){
+        return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 }
