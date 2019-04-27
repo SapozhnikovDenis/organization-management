@@ -66,8 +66,13 @@ public class DepartmentControllerTest {
 
     @Test
     public void deleteDepartment() throws Exception {
-        mockDepartmentController.perform(delete(API_V_1_DEPARTMENTS_URL + ID_URL,
-                        "69ed2ar08-df99-1010-v88a-79e604b08d00"))
+        mockDepartmentController.perform(delete(API_V_1_DEPARTMENTS_URL + NAME_URL, "develop"))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void getDepartment() throws Exception {
+        mockDepartmentController.perform(get(API_V_1_DEPARTMENTS_URL + NAME_URL, "develop"))
                 .andExpect(status().is2xxSuccessful());
     }
 }
