@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENT_URL;
+import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENTS_URL;
 import static com.sapozhnikov.organizationmanagement.utils.Constant.RENAME_URL;
 
 @Slf4j
 @RestController
-@RequestMapping(API_V_1_DEPARTMENT_URL)
+@RequestMapping(API_V_1_DEPARTMENTS_URL)
 public class DepartmentController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE,

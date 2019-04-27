@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENT_URL;
+import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENTS_URL;
 import static com.sapozhnikov.organizationmanagement.utils.Constant.RENAME_URL;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,7 +19,7 @@ public class DepartmentControllerTest {
     public void createDepartmentWithParentId() throws Exception {
         String json = TestUtils.readFile("/json/request/department/createDepartmentWithParent.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
+        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is2xxSuccessful());
@@ -29,7 +29,7 @@ public class DepartmentControllerTest {
     public void createDepartment() throws Exception {
         String json = TestUtils.readFile("/json/request/department/createDepartment.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
+        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is2xxSuccessful());
@@ -39,7 +39,7 @@ public class DepartmentControllerTest {
     public void createDepartmentNotValidJson() throws Exception {
         String json = TestUtils.readFile("/json/request/department/notValidCreateDepartment.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL)
+        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is4xxClientError());
@@ -49,7 +49,7 @@ public class DepartmentControllerTest {
     public void renameDepartment() throws Exception {
         String json = TestUtils.readFile("/json/request/department/renameDepartment.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL + RENAME_URL)
+        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL + RENAME_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is2xxSuccessful());
@@ -59,7 +59,7 @@ public class DepartmentControllerTest {
     public void renameDepartmentNotValidJson() throws Exception {
         String json = TestUtils.readFile("/json/request/department/notValidRenameDepartment.json");
 
-        mockDepartmentController.perform(post(API_V_1_DEPARTMENT_URL + RENAME_URL)
+        mockDepartmentController.perform(post(API_V_1_DEPARTMENTS_URL + RENAME_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is4xxClientError());
