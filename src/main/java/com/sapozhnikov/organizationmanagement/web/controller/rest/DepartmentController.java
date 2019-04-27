@@ -46,4 +46,9 @@ public class DepartmentController {
     public ResponseEntity<List<GetDepartmentRs>> getSubmissionsDepartments(@PathVariable String name){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
+
+    @GetMapping(value = NAME_URL + SUBMISSIONS_URL + ALL_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<GetDepartmentRs>> getAllSubmissionsDepartments(@PathVariable String name){
+        return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
+    }
 }

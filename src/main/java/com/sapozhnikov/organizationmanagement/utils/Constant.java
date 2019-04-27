@@ -6,4 +6,5 @@ public class Constant {
     public static final String RENAME_URL = "/rename";
     public static final String NAME_URL = "/{name}";
     public static final String SUBMISSIONS_URL = "/submissions";
+    public static final String ALL_URL = "/all";
 }

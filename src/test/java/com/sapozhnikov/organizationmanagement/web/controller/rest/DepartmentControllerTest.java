@@ -86,4 +86,11 @@ public class DepartmentControllerTest {
                 get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBMISSIONS_URL, DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
+
+    @Test
+    public void getAllSubmissionsDepartments() throws Exception {
+        mockDepartmentController.perform(
+                get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBMISSIONS_URL + ALL_URL, DEPARTMENT_NAME))
+                .andExpect(status().is2xxSuccessful());
+    }
 }
