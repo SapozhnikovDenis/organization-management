@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class DepartmentControllerTest {
 
     private static final String DEVELOP_DEPARTMENT_ID = "123456789";
-    private static final String QA_DEPARTMENT_NAME = "qa";
+    private static final String DEVELOP_DEPARTMENT_NAME = "develop";
 
     private final MockMvc mockDepartmentController =
             standaloneSetup(new DepartmentController()).build();
@@ -112,6 +112,13 @@ public class DepartmentControllerTest {
     public void getLeadDepartments() throws Exception {
         String url = API_V_1_DEPARTMENTS_URL + LEADERS_URL + ID_URL;
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void getDepartmentByName() throws Exception {
+        mockDepartmentController.perform(get(API_V_1_DEPARTMENTS_URL)
+                .param(NAME_PARAM, DEVELOP_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 }
