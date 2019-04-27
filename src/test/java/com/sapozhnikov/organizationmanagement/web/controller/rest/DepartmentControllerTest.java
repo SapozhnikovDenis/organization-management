@@ -49,9 +49,22 @@ public class DepartmentControllerTest {
 
     @Test
     public void renameDepartment() throws Exception {
-        String url = API_V_1_DEPARTMENTS_URL + FIRST_NAME_URL + RENAME_URL + SECOND_NAME_URL;
-        mockDepartmentController.perform(put(url, DEVELOP_DEPARTMENT_NAME, QA_DEPARTMENT_NAME))
+        String json = TestUtils.readFile("/json/request/department/renameDepartment.json");
+
+        mockDepartmentController.perform(put(API_V_1_DEPARTMENTS_URL + RENAME_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void renameDepartmentNotValidJson() throws Exception {
+        String json = TestUtils.readFile("/json/request/department/notValidRenameDepartment.json");
+
+        mockDepartmentController.perform(put(API_V_1_DEPARTMENTS_URL + RENAME_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -83,7 +96,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void changeLeadDepartment() throws Exception {
+    public void changeSubordinatesDepartment() throws Exception {
         String url = API_V_1_DEPARTMENTS_URL + FIRST_NAME_URL + LEAD_URL + SECOND_NAME_URL;
         mockDepartmentController.perform(put(url, DEVELOP_DEPARTMENT_NAME, QA_DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());

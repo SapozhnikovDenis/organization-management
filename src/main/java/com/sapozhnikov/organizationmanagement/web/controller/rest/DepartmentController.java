@@ -2,6 +2,7 @@ package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentRs;
+import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,8 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(FIRST_NAME_URL + RENAME_URL + SECOND_NAME_URL)
-    public ResponseEntity<Void> renameDepartment(@PathVariable String firstName,
-                                                 @PathVariable String secondName) {
+    @PutMapping(value = RENAME_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> renameDepartment(@RequestBody @Valid RenameDepartmentRq renameDepartmentRq) {
         return ResponseEntity.ok().build();
     }
 
@@ -52,13 +52,14 @@ public class DepartmentController {
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
-    @PutMapping(FIRST_NAME_URL + LEAD_URL + SECOND_NAME_URL)
-    public ResponseEntity<Void> changeLeadDepartment(@PathVariable String firstName,
-                                                     @PathVariable String secondName) {
+    @PutMapping(value = FIRST_NAME_URL + SUBORDINATES_URL + SECOND_NAME_URL,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> changeSubordinatesDepartment(@PathVariable String firstName,
+                                                             @PathVariable String secondName) {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = LEADERS_URL + NAME_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = LEADERS_URL + NAME_URL , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable String name) {
         return ResponseEntity.ok().build();
     }
