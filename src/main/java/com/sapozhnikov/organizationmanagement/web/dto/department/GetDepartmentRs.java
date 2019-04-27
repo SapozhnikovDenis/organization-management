@@ -1,7 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.dto.department;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sapozhnikov.organizationmanagement.web.dto.employee.GetLeaderRs;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.GetEmployeeRs;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +18,7 @@ public class GetDepartmentRs {
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate createDate;
     @NotNull
-    private GetLeaderRs leader;
+    private GetEmployeeRs leader;
     @NotNull
     private Long employeeCount;
 }

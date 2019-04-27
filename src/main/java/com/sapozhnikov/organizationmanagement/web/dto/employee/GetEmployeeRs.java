@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
-public class GetLeaderRs {
+public class GetEmployeeRs {
     @NotBlank
     private String firstName;
     @NotBlank
