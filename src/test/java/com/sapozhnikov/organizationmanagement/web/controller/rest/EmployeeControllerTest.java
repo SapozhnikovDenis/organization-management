@@ -59,4 +59,24 @@ public class EmployeeControllerTest {
                 .content(json))
                 .andExpect(status().is4xxClientError());
     }
+
+    @Test
+    public void dismissEmployee() throws Exception {
+        String json = TestUtils.readFile("/json/request/employee/dismissEmployee.json");
+        String url = API_V_1_EMPLOYEES_URL + ID_URL + DISMISS_URL;
+        mockDepartmentController.perform(put(url, EMPLOYEE_ID)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void dismissEmployeeNotValid() throws Exception {
+        String json = TestUtils.readFile("/json/request/employee/notValidDismissEmployee.json");
+        String url = API_V_1_EMPLOYEES_URL + ID_URL + DISMISS_URL;
+        mockDepartmentController.perform(put(url, EMPLOYEE_ID)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().is4xxClientError());
+    }
 }

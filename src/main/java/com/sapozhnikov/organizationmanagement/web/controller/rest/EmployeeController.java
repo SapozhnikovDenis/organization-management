@@ -1,5 +1,6 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
+import com.sapozhnikov.organizationmanagement.web.dto.employee.DismissEmployeeRq;
 import com.sapozhnikov.organizationmanagement.web.dto.employee.EmployeeRq;
 import com.sapozhnikov.organizationmanagement.web.dto.employee.GetEmployeeRs;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,12 @@ public class EmployeeController {
 
     @PutMapping(value = ID_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> changeEmployee(@RequestBody EmployeeRq employeeRq,
+                                               @PathVariable Long id) {
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = ID_URL + DISMISS_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> dismissEmployee(@RequestBody DismissEmployeeRq dismissEmployeeRq,
                                                @PathVariable Long id) {
         return ResponseEntity.ok().build();
     }
