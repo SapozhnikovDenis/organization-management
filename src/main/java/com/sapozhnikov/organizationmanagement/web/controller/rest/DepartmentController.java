@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.sapozhnikov.organizationmanagement.utils.Constant.API_V_1_DEPARTMENTS_URL;
-import static com.sapozhnikov.organizationmanagement.utils.Constant.RENAME_URL;
+import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 
 @Slf4j
 @RestController
@@ -26,6 +25,11 @@ public class DepartmentController {
     @PutMapping(value = RENAME_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> renameDepartment(@RequestBody @Valid RenameDepartmentRq renameDepartmentRq) {
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(value = ID_URL)
+    public ResponseEntity<Void> removeDepartment(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 }
