@@ -81,16 +81,16 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void getSubmissionsDepartments() throws Exception {
+    public void getDirectSubordinatesDepartments() throws Exception {
         mockDepartmentController.perform(
-                get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBMISSIONS_URL, DEPARTMENT_NAME))
+                get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBORDINATES_URL + DIRECT_URL, DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
-    public void getAllSubmissionsDepartments() throws Exception {
+    public void getAllSubordinatesDepartments() throws Exception {
         mockDepartmentController.perform(
-                get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBMISSIONS_URL + ALL_URL, DEPARTMENT_NAME))
+                get(API_V_1_DEPARTMENTS_URL + NAME_URL + SUBORDINATES_URL + ALL_URL, DEPARTMENT_NAME))
                 .andExpect(status().is2xxSuccessful());
     }
 }

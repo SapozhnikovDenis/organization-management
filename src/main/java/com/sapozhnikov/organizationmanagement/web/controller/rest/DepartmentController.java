@@ -42,13 +42,15 @@ public class DepartmentController {
         return ResponseEntity.ok(new GetDepartmentRs());
     }
 
-    @GetMapping(value = NAME_URL + SUBMISSIONS_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getSubmissionsDepartments(@PathVariable String name){
+    @GetMapping(value = NAME_URL + SUBORDINATES_URL + DIRECT_URL,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable String name){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
-    @GetMapping(value = NAME_URL + SUBMISSIONS_URL + ALL_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getAllSubmissionsDepartments(@PathVariable String name){
+    @GetMapping(value = NAME_URL + SUBORDINATES_URL + ALL_URL,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable String name){
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 }
