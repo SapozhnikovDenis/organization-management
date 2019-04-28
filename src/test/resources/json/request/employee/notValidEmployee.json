@@ -1,13 +1,15 @@
 {
-  "firstName": "",
-  "secondName": "",
-  "middleName": "",
+  "name": {
+    "first": "",
+    "second": "",
+    "middle": ""
+  },
   "sex": "",
   "birthDate" : "20.13.1989",
   "phone": "",
   "email": "",
   "employmentDate" : "201.01.2009",
-  "dateDismissal" : "200.01.2019",
+  "dismissalDate" : "200.01.2019",
   "position": "",
   "salary": "bug",
   "leadInDepartment": 213
