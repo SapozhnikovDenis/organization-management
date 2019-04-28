@@ -1,7 +1,9 @@
 {
-  "firstName": "Karl",
-  "secondName": "Karlov",
-  "middleName": "Karlovich",
+  "name": {
+    "first": "Karl",
+    "second": "Karlov",
+    "middle": "Karlovich"
+  },
   "sex": "male",
   "birthDate" : "20.01.1989",
   "phone": "89999999999",

@@ -1,7 +1,9 @@
 {
-  "firstName": "",
-  "secondName": "",
-  "middleName": "",
+  "name": {
+    "first": "",
+    "second": "",
+    "middle": ""
+  },
   "sex": "",
   "birthDate" : "20.13.1989",
   "phone": "",
