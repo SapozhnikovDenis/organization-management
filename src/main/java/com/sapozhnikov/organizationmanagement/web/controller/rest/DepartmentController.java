@@ -1,7 +1,9 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
+import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.web.dto.department.*;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,8 +23,11 @@ import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 @Api
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(API_V_1_DEPARTMENTS_URL)
 public class DepartmentController {
+
+    private final DepartmentService departmentService;
 
     @ApiOperation("create department")
     @ApiResponses({
@@ -35,7 +40,8 @@ public class DepartmentController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createDepartment(@RequestBody @Valid @ApiParam("json create department")
                                                              CreateDepartmentRq createDepartmentRq) {
-        URI uri = URI.create(API_V_1_DEPARTMENTS_URL + "/123");
+        Long idDepartment = departmentService.createDepartment(createDepartmentRq);
+        URI uri = URI.create(API_V_1_DEPARTMENTS_URL + "/" + idDepartment);
         return ResponseEntity.created(uri).build();
     }
 
