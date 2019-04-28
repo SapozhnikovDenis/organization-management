@@ -18,10 +18,10 @@ import java.util.List;
 
 import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 
+@Api
 @Slf4j
 @RestController
 @RequestMapping(API_V_1_DEPARTMENTS_URL)
-@Api("operations with department")
 public class DepartmentController {
 
     @ApiOperation("create department")
@@ -67,7 +67,7 @@ public class DepartmentController {
     @ApiOperation("get department by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
-            @ApiResponse(code = 404, message = "department not found"),
+            @ApiResponse(code = 404, message = "Department not found"),
     })
     @GetMapping(value = ID_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable @NotNull
@@ -79,7 +79,7 @@ public class DepartmentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Direct subordinates departments successfully found",
                     response = GetDepartmentRs.class, responseContainer = "List"),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = ID_URL + SUBORDINATES_URL + DIRECT_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -93,7 +93,7 @@ public class DepartmentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "All subordinates departments successfully found",
                     response = GetDepartmentRs.class, responseContainer = "List"),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = ID_URL + SUBORDINATES_URL + ALL_URL,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -105,9 +105,10 @@ public class DepartmentController {
 
     @ApiOperation("change leader department")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "leader department successfully change"),
+            @ApiResponse(code = 200, message = "Leader department successfully change"),
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 404, message = "Department not found"),
+            @ApiResponse(code = 409, message = "Fail change leader department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = LEADERS_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -122,7 +123,7 @@ public class DepartmentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Lead departments successfully found",
                     response = GetDepartmentRs.class, responseContainer = "List"),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = ID_URL + LEADERS_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable @NotNull
@@ -133,8 +134,8 @@ public class DepartmentController {
 
     @ApiOperation("get department by name")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "department successfully found", response = GetDepartmentRs.class),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam(NAME_PARAM) @NotNull
@@ -145,9 +146,9 @@ public class DepartmentController {
 
     @ApiOperation("get salary full department")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "salary department successfully found",
+            @ApiResponse(code = 200, message = "Salary department successfully found",
                     response = GetSalaryDepartmentRs.class),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = ID_URL + SALARY_URL,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@PathVariable @NotNull

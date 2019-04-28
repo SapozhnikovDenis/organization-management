@@ -20,7 +20,7 @@ public class GetEmployeeRs {
     @ApiModelProperty(value = "email", example = "karl@gmail.com", required = true)
     private String email;
     @NotBlank
-    @ApiModelProperty(value = "email", example = "developer", required = true)
+    @ApiModelProperty(value = "position", example = "developer", required = true)
     private String position;
     @NotNull
     @ApiModelProperty(value = "this employee is lead in department", example = "true", required = true)
