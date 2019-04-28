@@ -27,9 +27,9 @@ public class DepartmentEntity {
     private LocalDate createDate;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "leadDepartment_id")
     private DepartmentEntity leadDepartment;
 
-    @OneToMany(mappedBy = "lead")
+    @OneToMany(mappedBy = "leadDepartment")
     private List<DepartmentEntity> subordinatesDepartments;
 }
