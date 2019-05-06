@@ -15,7 +15,7 @@ public class DepartmentControllerTest {
     private static final String DEVELOP_DEPARTMENT_NAME = "develop";
 
     private final MockMvc mockDepartmentController =
-            standaloneSetup(new DepartmentController()).build();
+            standaloneSetup(new DepartmentController(null)).build();
 
     @Test
     public void createDepartmentWithLead() throws Exception {

@@ -1,7 +1,7 @@
 package com.sapozhnikov.organizationmanagement.service;
 
-import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
+import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
 
 public interface DepartmentService {
-    Long createDepartment(CreateDepartmentRq createDepartmentRq);
+    Long createDepartment(DepartmentDto departmentDto);
 }
