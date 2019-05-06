@@ -1,5 +1,6 @@
 package com.sapozhnikov.organizationmanagement.service.dto;
 
+import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import lombok.Data;
 
@@ -17,5 +18,12 @@ public class DepartmentDto {
         departmentDto.setCreateDate(departmentRq.getCreateDate());
         departmentDto.setLeadId(departmentRq.getLeadId());
         return departmentDto;
+    }
+
+    public DepartmentEntity mapToEntity() {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        departmentEntity.setName(this.getName());
+        departmentEntity.setCreateDate(this.getCreateDate());
+        return departmentEntity;
     }
 }
