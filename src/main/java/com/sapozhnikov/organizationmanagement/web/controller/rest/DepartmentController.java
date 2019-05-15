@@ -53,6 +53,7 @@ public class DepartmentController {
     public ResponseEntity<Void> renameDepartment(@RequestBody @Valid
                                                      @ApiParam(value = "json rename department", required = true)
                                                              RenameDepartmentRq renameDepartmentRq) {
+        departmentService.renameDepartment(renameDepartmentRq);
         return ResponseEntity.ok().build();
     }
 
