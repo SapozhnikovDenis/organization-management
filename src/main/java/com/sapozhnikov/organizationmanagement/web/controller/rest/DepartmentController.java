@@ -7,25 +7,21 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
-
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
-
-import static com.sapozhnikov.organizationmanagement.utils.Constant.*;
 
 @Api
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(API_V_1_DEPARTMENTS_URL)
+@RequestMapping("/api/v1/department")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -38,11 +34,11 @@ public class DepartmentController {
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity<Void> createDepartment(@RequestBody @Valid @ApiParam("json create department")
                                                              CreateDepartmentRq createDepartmentRq) {
         Long idDepartment = departmentService.createDepartment(DepartmentDto.of(createDepartmentRq));
-        URI uri = URI.create(API_V_1_DEPARTMENTS_URL + "/" + idDepartment);
+        URI uri = URI.create("/api/v1/department/" + idDepartment);
         return ResponseEntity.created(uri).build();
     }
 
@@ -53,7 +49,7 @@ public class DepartmentController {
             @ApiResponse(code = 409, message = "Fail rename department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping(value = RENAME_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping("/rename")
     public ResponseEntity<Void> renameDepartment(@RequestBody @Valid
                                                      @ApiParam(value = "json rename department", required = true)
                                                              RenameDepartmentRq renameDepartmentRq) {
@@ -65,7 +61,7 @@ public class DepartmentController {
             @ApiResponse(code = 200, message = "Department successfully removed"),
             @ApiResponse(code = 409, message = "Fail remove department"),
     })
-    @DeleteMapping(ID_URL)
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeDepartment(@PathVariable @NotNull
                                                      @ApiParam(value = "id department", required = true) Long id){
         return ResponseEntity.ok().build();
@@ -76,7 +72,7 @@ public class DepartmentController {
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
             @ApiResponse(code = 404, message = "Department not found"),
     })
-    @GetMapping(value = ID_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{id}")
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable @NotNull
                                                          @ApiParam(value = "id department", required = true) Long id){
         return ResponseEntity.ok(new GetDepartmentRs());
@@ -88,8 +84,7 @@ public class DepartmentController {
                     response = GetDepartmentRs.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping(value = ID_URL + SUBORDINATES_URL + DIRECT_URL,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{id}/subordinate/direct")
     public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable @NotNull
                                                                      @ApiParam(value = "id department", required = true)
                                                                                               Long id){
@@ -102,8 +97,7 @@ public class DepartmentController {
                     response = GetDepartmentRs.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping(value = ID_URL + SUBORDINATES_URL + ALL_URL,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{id}/subordinate/all")
     public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable
                                                                     @ApiParam(value = "id department", required = true)
                                                                                            Long id){
@@ -118,8 +112,7 @@ public class DepartmentController {
             @ApiResponse(code = 409, message = "Fail change leader department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping(value = LEADERS_URL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping("/leader")
     public ResponseEntity<Void> changeLeaderDepartment(@RequestBody @Valid
                                                     @ApiParam(value = "json change leader department", required = true)
                                                                    ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
@@ -132,7 +125,7 @@ public class DepartmentController {
                     response = GetDepartmentRs.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping(value = ID_URL + LEADERS_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{id}/leader")
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable @NotNull
                                                                    @ApiParam(value = "id department", required = true)
                                                                                 Long id) {
@@ -144,8 +137,8 @@ public class DepartmentController {
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam(NAME_PARAM) @NotNull
+    @GetMapping
+    public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam("name") @NotNull
                                                              @ApiParam(value = "name department", required = true)
                                                                      String name){
         return ResponseEntity.ok(new GetDepartmentRs());
@@ -157,7 +150,7 @@ public class DepartmentController {
                     response = GetSalaryDepartmentRs.class),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping(value = ID_URL + SALARY_URL,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/{id}/salary")
     public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@PathVariable @NotNull
                                                                     @ApiParam(value = "id department", required = true)
                                                                                      Long id){
