@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -20,7 +21,8 @@ public class EmployeeControllerTest {
     public void getEmployeesInDepartment() throws Exception {
         mockDepartmentController.perform(get("/api/v1/employee")
                 .param("departmentId", DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
@@ -83,7 +85,8 @@ public class EmployeeControllerTest {
     public void getEmployee() throws Exception {
         String url = "/api/v1/employee" + "/{id}";
         mockDepartmentController.perform(get(url, EMPLOYEE_ID))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test

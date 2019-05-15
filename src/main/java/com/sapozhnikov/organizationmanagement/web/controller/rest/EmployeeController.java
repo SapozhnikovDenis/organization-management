@@ -6,6 +6,7 @@ import com.sapozhnikov.organizationmanagement.web.dto.employee.TransferEmployeeT
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class EmployeeController {
                     response = Employee.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Employees not found"),
     })
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Employee>> getEmployeesInDepartment(@PathParam("departmentId") @NotNull
                                                                      @ApiParam(value = "id department", required = true)
                                                                                Long departmentId) {
@@ -43,7 +44,7 @@ public class EmployeeController {
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createEmployee(@RequestBody @Valid
                                                    @ApiParam(value = "json create employee", required = true)
                                                            Employee employee) {
@@ -57,7 +58,7 @@ public class EmployeeController {
             @ApiResponse(code = 409, message = "Fail change employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> changeEmployee(@RequestBody @ApiParam(value = "json change employee", required = true)
                                                            Employee employee,
                                                @PathVariable @ApiParam(value = "id employee", required = true)
@@ -71,7 +72,7 @@ public class EmployeeController {
             @ApiResponse(code = 409, message = "Fail dismiss employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping("/{id}/dismiss")
+    @PutMapping(value = "/{id}/dismiss", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> dismissEmployee(@RequestBody @ApiParam(value = "json dismiss employee", required = true)
                                                             DismissEmployeeRq dismissEmployeeRq,
                                                 @PathVariable @ApiParam(value = "id employee", required = true)
@@ -85,7 +86,7 @@ public class EmployeeController {
                     response = Employee.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Employees not found"),
     })
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Employee> getEmployee(@PathVariable @ApiParam(value = "id employee", required = true) Long id) {
         return ResponseEntity.ok(new Employee());
     }
@@ -96,7 +97,7 @@ public class EmployeeController {
             @ApiResponse(code = 409, message = "Fail transfer employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping("/transfer")
+    @PutMapping(value = "/transfer", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> transferEmployeeToDepartment(
             @RequestBody @ApiParam(value = "json transfer employee", required = true)
                     TransferEmployeeToDepartmentRq transferEmployeeToDepartmentRq) {

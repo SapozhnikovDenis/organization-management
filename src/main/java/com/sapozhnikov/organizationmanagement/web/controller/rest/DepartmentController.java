@@ -7,6 +7,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class DepartmentController {
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createDepartment(@RequestBody @Valid @ApiParam("json create department")
                                                              CreateDepartmentRq createDepartmentRq) {
         Long idDepartment = departmentService.createDepartment(DepartmentDto.of(createDepartmentRq));
@@ -49,7 +50,7 @@ public class DepartmentController {
             @ApiResponse(code = 409, message = "Fail rename department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping("/rename")
+    @PutMapping(value = "/rename", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> renameDepartment(@RequestBody @Valid
                                                      @ApiParam(value = "json rename department", required = true)
                                                              RenameDepartmentRq renameDepartmentRq) {
@@ -72,7 +73,7 @@ public class DepartmentController {
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
             @ApiResponse(code = 404, message = "Department not found"),
     })
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable @NotNull
                                                          @ApiParam(value = "id department", required = true) Long id){
         return ResponseEntity.ok(new GetDepartmentRs());
@@ -84,7 +85,7 @@ public class DepartmentController {
                     response = GetDepartmentRs.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping("/{id}/subordinate/direct")
+    @GetMapping(value = "/{id}/subordinate/direct", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable @NotNull
                                                                      @ApiParam(value = "id department", required = true)
                                                                                               Long id){
@@ -97,7 +98,7 @@ public class DepartmentController {
                     response = GetDepartmentRs.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping("/{id}/subordinate/all")
+    @GetMapping(value = "/{id}/subordinate/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable
                                                                     @ApiParam(value = "id department", required = true)
                                                                                            Long id){
@@ -112,7 +113,7 @@ public class DepartmentController {
             @ApiResponse(code = 409, message = "Fail change leader department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
-    @PutMapping("/leader")
+    @PutMapping(value = "/leader", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> changeLeaderDepartment(@RequestBody @Valid
                                                     @ApiParam(value = "json change leader department", required = true)
                                                                    ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
@@ -125,7 +126,7 @@ public class DepartmentController {
                     response = GetDepartmentRs.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping("/{id}/leader")
+    @GetMapping(value = "/{id}/leader", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable @NotNull
                                                                    @ApiParam(value = "id department", required = true)
                                                                                 Long id) {
@@ -137,7 +138,7 @@ public class DepartmentController {
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam("name") @NotNull
                                                              @ApiParam(value = "name department", required = true)
                                                                      String name){
@@ -150,7 +151,7 @@ public class DepartmentController {
                     response = GetSalaryDepartmentRs.class),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    @GetMapping("/{id}/salary")
+    @GetMapping(value = "/{id}/salary", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@PathVariable @NotNull
                                                                     @ApiParam(value = "id department", required = true)
                                                                                      Long id){

@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -63,7 +64,7 @@ public class DepartmentControllerTest {
     @Test
     public void renameDepartment() throws Exception {
         String json = TestUtils.readFile("/json/request/department/renameDepartment.json");
-        mockDepartmentController.perform(put("/api/v1/department" + "/rename")
+        mockDepartmentController.perform(put("/api/v1/department/rename")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is2xxSuccessful());
@@ -72,7 +73,7 @@ public class DepartmentControllerTest {
     @Test
     public void renameDepartmentNotValidJson() throws Exception {
         String json = TestUtils.readFile("/json/request/department/notValidRenameDepartment.json");
-        mockDepartmentController.perform(put("/api/v1/department" + "/rename")
+        mockDepartmentController.perform(put("/api/v1/department/rename")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is4xxClientError());
@@ -80,7 +81,7 @@ public class DepartmentControllerTest {
 
     @Test
     public void deleteDepartment() throws Exception {
-        String url = "/api/v1/department" + "/{id}";
+        String url = "/api/v1/department/{id}";
         mockDepartmentController.perform(delete(url, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -89,27 +90,30 @@ public class DepartmentControllerTest {
     public void getDepartment() throws Exception {
         String url = "/api/v1/department/{id}";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     public void getDirectSubordinatesDepartments() throws Exception {
-        String url = "/api/v1/department" + "/{id}" + "/subordinate" + "/direct";
+        String url = "/api/v1/department/{id}/subordinate/direct";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     public void getAllSubordinatesDepartments() throws Exception {
-        String url = "/api/v1/department" + "/{id}" + "/subordinate" + "/all";
+        String url = "/api/v1/department/{id}/subordinate/all";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     public void changeLeadersDepartment() throws Exception {
         String json = TestUtils.readFile("/json/request/department/changeLeadersDepartment.json");
-        mockDepartmentController.perform(put("/api/v1/department" + "/leader")
+        mockDepartmentController.perform(put("/api/v1/department/leader")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().is2xxSuccessful());
@@ -126,7 +130,7 @@ public class DepartmentControllerTest {
 
     @Test
     public void getLeadDepartments() throws Exception {
-        String url = "/api/v1/department" + "/{id}" + "/leader";
+        String url = "/api/v1/department/{id}/leader";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -135,13 +139,15 @@ public class DepartmentControllerTest {
     public void getDepartmentByName() throws Exception {
         mockDepartmentController.perform(get("/api/v1/department")
                 .param("name", DEVELOP_DEPARTMENT_NAME))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     public void getSalaryFullDepartment() throws Exception {
         String url = "/api/v1/department/{id}/salary";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 }
