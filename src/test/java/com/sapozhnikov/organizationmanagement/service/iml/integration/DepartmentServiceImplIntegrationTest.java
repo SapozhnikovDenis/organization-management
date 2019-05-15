@@ -25,7 +25,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @AutoConfigureTestDatabase(replace = NONE)
 @ContextConfiguration(classes = TestConfigurationJpa.class)
 public class DepartmentServiceImplIntegrationTest {
-
+    //TODO skip integration tests in maven package
     private static final String DEVELOP = "develop";
     private static final long LEAD_ID = 987654321L;
 

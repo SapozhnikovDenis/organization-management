@@ -4,9 +4,14 @@ import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
+import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,5 +30,18 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         DepartmentEntity saveDepartment = departmentRepository.save(departmentEntity);
         return saveDepartment.getId();
+    }
+
+    @Override
+    public void renameDepartment(RenameDepartmentRq renameDepartmentRq) {
+        Optional<DepartmentEntity> optionalDepartmentEntity =
+                departmentRepository.findById(renameDepartmentRq.getId());
+        if (optionalDepartmentEntity.isPresent()) {
+            DepartmentEntity departmentEntity = optionalDepartmentEntity.get();
+            departmentEntity.setName(renameDepartmentRq.getNewName());
+            departmentRepository.save(departmentEntity);
+        } else {
+            throw new ApiException(HttpStatus.NOT_FOUND);
+        }
     }
 }

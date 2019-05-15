@@ -6,14 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @ApiModel
 @NoArgsConstructor
 public class RenameDepartmentRq {
-    @NotBlank
+    @NotNull
     @ApiModelProperty(value = "id department", example = "123456789", required = true)
-    private String id;
+    private Long id;
     @NotBlank
     @ApiModelProperty(value = "new name department", example = "development", required = true)
     private String newName;

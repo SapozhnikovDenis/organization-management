@@ -4,6 +4,8 @@ import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
+import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +49,7 @@ public class DepartmentServiceImplTest {
         Long departmentId = departmentService.createDepartment(departmentDto);
 
         assertEquals(ID, departmentId);
+        verify(departmentRepository).save(any());
     }
 
     @Test
@@ -68,5 +71,26 @@ public class DepartmentServiceImplTest {
         Long departmentId = departmentService.createDepartment(departmentDto);
 
         assertEquals(ID, departmentId);
+        verify(departmentRepository).save(any());
+    }
+
+    @Test(expected = ApiException.class)
+    public void renameDepartmentWithNotFoundDepartment() {
+        when(departmentRepository.findById(any())).thenReturn(Optional.empty());
+
+        departmentService.renameDepartment(new RenameDepartmentRq());
+    }
+
+    @Test
+    public void renameDepartment() {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        when(departmentRepository.findById(any())).thenReturn(Optional.of(departmentEntity));
+        RenameDepartmentRq renameDepartmentRq = new RenameDepartmentRq();
+        renameDepartmentRq.setNewName("name");
+
+        departmentService.renameDepartment(renameDepartmentRq);
+
+        assertEquals(renameDepartmentRq.getNewName(), departmentEntity.getName());
+        verify(departmentRepository).save(departmentEntity);
     }
 }
