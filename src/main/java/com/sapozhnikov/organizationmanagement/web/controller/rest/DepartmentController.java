@@ -31,7 +31,6 @@ public class DepartmentController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Department successfully created"),
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail create department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,7 +46,7 @@ public class DepartmentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Department successfully renamed"),
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail rename department"),
+            @ApiResponse(code = 404, message = "Department not found"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/rename", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -60,7 +59,6 @@ public class DepartmentController {
     @ApiOperation("removed department")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Department successfully removed"),
-            @ApiResponse(code = 409, message = "Fail remove department"),
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeDepartment(@PathVariable @NotNull
@@ -71,7 +69,6 @@ public class DepartmentController {
     @ApiOperation("get department by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
-            @ApiResponse(code = 404, message = "Department not found"),
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable @NotNull
@@ -110,7 +107,6 @@ public class DepartmentController {
             @ApiResponse(code = 200, message = "Leader department successfully change"),
             @ApiResponse(code = 400, message = "Json not valid"),
             @ApiResponse(code = 404, message = "Department not found"),
-            @ApiResponse(code = 409, message = "Fail change leader department"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/leader", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)

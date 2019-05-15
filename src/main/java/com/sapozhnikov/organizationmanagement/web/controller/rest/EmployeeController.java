@@ -40,7 +40,6 @@ public class EmployeeController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Employee successfully created"),
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail create employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,7 +54,6 @@ public class EmployeeController {
     @ApiOperation("change employee")
     @ApiResponses({
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail change employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -69,7 +67,6 @@ public class EmployeeController {
     @ApiOperation("dismiss employee")
     @ApiResponses({
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail dismiss employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/{id}/dismiss", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -94,7 +91,6 @@ public class EmployeeController {
     @ApiOperation("transfer employee to department")
     @ApiResponses({
             @ApiResponse(code = 400, message = "Json not valid"),
-            @ApiResponse(code = 409, message = "Fail transfer employee"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/transfer", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
