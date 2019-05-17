@@ -6,6 +6,8 @@ import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.config.TestConfigurationJpa;
 import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
+import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
 
 import static junit.framework.TestCase.*;
+import static org.junit.Assert.assertNotEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @DataJpaTest
@@ -26,6 +29,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @ContextConfiguration(classes = TestConfigurationJpa.class)
 public class DepartmentServiceImplIntegrationTest {
     //TODO skip integration tests in maven package
+    private static final String QA = "qa";
     private static final String DEVELOP = "develop";
     private static final long LEAD_ID = 987654321L;
 
@@ -72,5 +76,34 @@ public class DepartmentServiceImplIntegrationTest {
         assertNull(departmentEntity.getLeadDepartment());
         assertNull(departmentEntity.getSubordinatesDepartments());
     }
+
+    @Test
+    public void renameDepartmentSuccessful() {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        String departmentName = DEVELOP;
+        departmentEntity.setName(departmentName);
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(departmentEntity);
+        RenameDepartmentRq renameDepartmentRq = new RenameDepartmentRq();
+        Long saveDepartmentEntityId = saveDepartmentEntity.getId();
+        renameDepartmentRq.setId(saveDepartmentEntityId);
+        renameDepartmentRq.setNewName(QA);
+
+        departmentService.renameDepartment(renameDepartmentRq);
+
+        DepartmentEntity renameDepartmentEntity = departmentRepository.getOne(saveDepartmentEntityId);
+        assertEquals(renameDepartmentRq.getNewName(), renameDepartmentEntity.getName());
+        assertNotEquals(departmentName, renameDepartmentEntity.getName());
+    }
+
+    @Test(expected = ApiException.class)
+    public void renameDepartmentNotFoundDepartment() {
+        RenameDepartmentRq renameDepartmentRq = new RenameDepartmentRq();
+        renameDepartmentRq.setId(1L);
+        renameDepartmentRq.setNewName(QA);
+
+        assertFalse(departmentRepository.existsById(renameDepartmentRq.getId()));
+        departmentService.renameDepartment(renameDepartmentRq);
+    }
+
 }
 
