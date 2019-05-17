@@ -4,6 +4,7 @@ import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.config.TestConfigurationJpa;
+import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
@@ -20,7 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
 
 import static junit.framework.TestCase.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @DataJpaTest
@@ -120,6 +123,23 @@ public class DepartmentServiceImplIntegrationTest {
         long id = 1L;
         assertFalse(departmentRepository.existsById(id));
         departmentService.removeDepartment(id);
+    }
+
+    @Test
+    public void getDepartmentInfoSuccessful() {
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(new DepartmentEntity());
+        Long id = saveDepartmentEntity.getId();
+
+        GetDepartmentInfo getDepartmentInfo = departmentService.getDepartmentInfo(id);
+
+        assertNotNull(getDepartmentInfo);
+    }
+
+    @Test(expected = ApiException.class)
+    public void getDepartmentInfoNotFoundDepartment() {
+        long id = 1L;
+        assertFalse(departmentRepository.existsById(id));
+        departmentService.getDepartmentInfo(id);
     }
 }
 

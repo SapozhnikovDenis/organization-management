@@ -3,6 +3,7 @@ package com.sapozhnikov.organizationmanagement.service.iml;
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
+import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
@@ -108,5 +109,26 @@ public class DepartmentServiceImplTest {
         when(departmentRepository.existsById(id)).thenReturn(false);
 
         departmentService.removeDepartment(id);
+    }
+
+    @Test
+    public void getDepartmentInfoSuccessful() {
+        long id = 1L;
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        departmentEntity.setName(DEVELOP);
+        departmentEntity.setCreateDate(LocalDate.now());
+        when(departmentRepository.findById(id)).thenReturn(Optional.of(departmentEntity));
+
+        GetDepartmentInfo getDepartmentInfo = departmentService.getDepartmentInfo(id);
+
+        assertNotNull(getDepartmentInfo);
+    }
+
+    @Test(expected = ApiException.class)
+    public void getDepartmentInfoNotFoundDepartment() {
+        long id = 1L;
+        when(departmentRepository.findById(id)).thenReturn(Optional.empty());
+
+        departmentService.getDepartmentInfo(id);
     }
 }

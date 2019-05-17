@@ -3,6 +3,7 @@ package com.sapozhnikov.organizationmanagement.service.iml;
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
+import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
@@ -54,10 +55,24 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
+    @Override
+    public GetDepartmentInfo getDepartmentInfo(Long id) {
+        DepartmentEntity departmentEntity = departmentRepository.findById(id)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND));
+        return mapToGetDepartmentInfo(departmentEntity);
+    }
+
     protected DepartmentEntity mapToDepartmentEntity(CreateDepartmentRq createDepartmentRq) {
         DepartmentEntity departmentEntity = new DepartmentEntity();
         departmentEntity.setName(createDepartmentRq.getName());
         departmentEntity.setCreateDate(createDepartmentRq.getCreateDate());
         return departmentEntity;
+    }
+
+    protected GetDepartmentInfo mapToGetDepartmentInfo(DepartmentEntity departmentEntity) {
+        GetDepartmentInfo getDepartmentInfo = new GetDepartmentInfo();
+        getDepartmentInfo.setName(departmentEntity.getName());
+        getDepartmentInfo.setCreateDate(departmentEntity.getCreateDate());
+        return getDepartmentInfo;
     }
 }

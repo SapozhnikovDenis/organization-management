@@ -1,7 +1,6 @@
 package com.sapozhnikov.organizationmanagement.service.dto;
 
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
-import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import org.junit.Test;
@@ -12,14 +11,13 @@ import static org.junit.Assert.*;
 
 public class MappingDepartmentTest extends DepartmentServiceImpl {
 
-    private static final String NAME = "name";
+    private static final String NAME = "development";
     private static final LocalDate CREATE_DATE = LocalDate.now();
     private static final long LEAD_ID = 987654321L;
 
     public MappingDepartmentTest() {
         super(null);
     }
-
 
     @Test
     public void mapToEntity() {
@@ -34,5 +32,18 @@ public class MappingDepartmentTest extends DepartmentServiceImpl {
         assertEquals(createDepartmentRq.getCreateDate(), departmentEntity.getCreateDate());
         assertNull(departmentEntity.getLeadDepartment());
         assertNull(departmentEntity.getSubordinatesDepartments());
+    }
+
+    @Test
+    public void mapToGetDepartmentInfo() {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        departmentEntity.setName(NAME);
+        departmentEntity.setCreateDate(LocalDate.now());
+
+        GetDepartmentInfo getDepartmentInfo =
+                mapToGetDepartmentInfo(departmentEntity);
+
+        assertEquals(departmentEntity.getName(), getDepartmentInfo.getName());
+        assertEquals(departmentEntity.getCreateDate(), getDepartmentInfo.getCreateDate());
     }
 }
