@@ -1,7 +1,6 @@
 package com.sapozhnikov.organizationmanagement.web.dto.department;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sapozhnikov.organizationmanagement.web.dto.employee.GetEmployeeRs;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,7 +25,7 @@ public class GetDepartmentRs {
     @NotNull
     @Valid
     @ApiModelProperty(value = "leader", required = true)
-    private GetEmployeeRs leader;
+    private GetLeaderDepartmentRs leader;
     @NotNull
     @ApiModelProperty(value = "employee count in department", example = "123", required = true)
     private Long employeeCount;
