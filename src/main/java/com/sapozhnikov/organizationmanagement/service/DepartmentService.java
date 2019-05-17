@@ -6,4 +6,5 @@ import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmen
 public interface DepartmentService {
     Long createDepartment(DepartmentDto departmentDto);
     void renameDepartment(RenameDepartmentRq renameDepartmentRq);
+    void removeDepartment(Long id);
 }

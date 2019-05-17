@@ -21,6 +21,8 @@ import java.time.LocalDate;
 
 import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @DataJpaTest
@@ -105,5 +107,21 @@ public class DepartmentServiceImplIntegrationTest {
         departmentService.renameDepartment(renameDepartmentRq);
     }
 
+    @Test
+    public void removeDepartmentSuccessful() {
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(new DepartmentEntity());
+        Long id = saveDepartmentEntity.getId();
+
+        departmentService.removeDepartment(id);
+
+        assertFalse(departmentRepository.existsById(id));
+    }
+
+    @Test(expected = ApiException.class)
+    public void removeDepartmentNotFoundDepartment() {
+        long id = 1L;
+        assertFalse(departmentRepository.existsById(id));
+        departmentService.removeDepartment(id);
+    }
 }
 

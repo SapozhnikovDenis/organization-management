@@ -44,4 +44,13 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new ApiException(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Override
+    public void removeDepartment(Long id) {
+        if (departmentRepository.existsById(id)) {
+            departmentRepository.deleteById(id);
+        } else {
+            throw new ApiException(HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -75,14 +75,14 @@ public class DepartmentServiceImplTest {
     }
 
     @Test(expected = ApiException.class)
-    public void renameDepartmentWithNotFoundDepartment() {
+    public void renameDepartmentNotFoundDepartment() {
         when(departmentRepository.findById(any())).thenReturn(Optional.empty());
 
         departmentService.renameDepartment(new RenameDepartmentRq());
     }
 
     @Test
-    public void renameDepartment() {
+    public void renameDepartmentSuccessful() {
         DepartmentEntity departmentEntity = new DepartmentEntity();
         when(departmentRepository.findById(any())).thenReturn(Optional.of(departmentEntity));
         RenameDepartmentRq renameDepartmentRq = new RenameDepartmentRq();
@@ -92,5 +92,23 @@ public class DepartmentServiceImplTest {
 
         assertEquals(renameDepartmentRq.getNewName(), departmentEntity.getName());
         verify(departmentRepository).save(departmentEntity);
+    }
+
+    @Test
+    public void removeDepartmentSuccessful() {
+        long id = 1L;
+        when(departmentRepository.existsById(id)).thenReturn(true);
+
+        departmentService.removeDepartment(id);
+
+        verify(departmentRepository).deleteById(id);
+    }
+
+    @Test(expected = ApiException.class)
+    public void removeDepartmentNotFoundDepartment() {
+        long id = 1L;
+        when(departmentRepository.existsById(id)).thenReturn(false);
+
+        departmentService.removeDepartment(id);
     }
 }

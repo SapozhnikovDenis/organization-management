@@ -60,10 +60,12 @@ public class DepartmentController {
     @ApiOperation("removed department")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Department successfully removed"),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeDepartment(@PathVariable @NotNull
                                                      @ApiParam(value = "id department", required = true) Long id){
+        departmentService.removeDepartment(id);
         return ResponseEntity.ok().build();
     }
 
