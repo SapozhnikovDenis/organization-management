@@ -4,9 +4,9 @@ import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.config.TestConfigurationJpa;
-import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +21,6 @@ import java.time.LocalDate;
 
 import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertNotEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @DataJpaTest
@@ -47,34 +45,34 @@ public class DepartmentServiceImplIntegrationTest {
 
     @Test
     public void createDepartmentNotHaveLead() {
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName(DEVELOP);
-        departmentDto.setCreateDate(LocalDate.now());
+        CreateDepartmentRq createDepartmentRq = new CreateDepartmentRq();
+        createDepartmentRq.setName(DEVELOP);
+        createDepartmentRq.setCreateDate(LocalDate.now());
 
-        Long departmentId = departmentService.createDepartment(departmentDto);
+        Long departmentId = departmentService.createDepartment(createDepartmentRq);
 
         DepartmentEntity departmentEntity = departmentRepository.getOne(departmentId);
-        assertEquals(departmentDto.getName(), departmentEntity.getName());
-        assertEquals(departmentDto.getCreateDate(), departmentEntity.getCreateDate());
+        assertEquals(createDepartmentRq.getName(), departmentEntity.getName());
+        assertEquals(createDepartmentRq.getCreateDate(), departmentEntity.getCreateDate());
         assertNull(departmentEntity.getLeadDepartment());
         assertNull(departmentEntity.getSubordinatesDepartments());
     }
 
     @Test
     public void createDepartmentWithLead() {
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName(DEVELOP);
-        departmentDto.setCreateDate(LocalDate.now());
-        departmentDto.setLeadId(LEAD_ID);
+        CreateDepartmentRq createDepartmentRq = new CreateDepartmentRq();
+        createDepartmentRq.setName(DEVELOP);
+        createDepartmentRq.setCreateDate(LocalDate.now());
+        createDepartmentRq.setLeadId(LEAD_ID);
         DepartmentEntity leadDepartment = new DepartmentEntity();
         leadDepartment.setId(LEAD_ID);
         departmentRepository.save(leadDepartment);
 
-        Long departmentId = departmentService.createDepartment(departmentDto);
+        Long departmentId = departmentService.createDepartment(createDepartmentRq);
 
         DepartmentEntity departmentEntity = departmentRepository.getOne(departmentId);
-        assertEquals(departmentDto.getName(), departmentEntity.getName());
-        assertEquals(departmentDto.getCreateDate(), departmentEntity.getCreateDate());
+        assertEquals(createDepartmentRq.getName(), departmentEntity.getName());
+        assertEquals(createDepartmentRq.getCreateDate(), departmentEntity.getCreateDate());
         assertNull(departmentEntity.getLeadDepartment());
         assertNull(departmentEntity.getSubordinatesDepartments());
     }

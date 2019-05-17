@@ -1,7 +1,6 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
-import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
 import com.sapozhnikov.organizationmanagement.web.dto.department.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,7 @@ public class DepartmentController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createDepartment(@RequestBody @Valid @ApiParam("json create department")
                                                              CreateDepartmentRq createDepartmentRq) {
-        Long idDepartment = departmentService.createDepartment(DepartmentDto.of(createDepartmentRq));
+        Long idDepartment = departmentService.createDepartment(createDepartmentRq);
         URI uri = URI.create("/api/v1/department/" + idDepartment);
         return ResponseEntity.created(uri).build();
     }

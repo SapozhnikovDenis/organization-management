@@ -3,8 +3,8 @@ package com.sapozhnikov.organizationmanagement.service.iml;
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
-import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,14 +39,14 @@ public class DepartmentServiceImplTest {
 
     @Test
     public void createDepartment() {
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName(DEVELOP);
-        departmentDto.setCreateDate(LocalDate.now());
+        CreateDepartmentRq createDepartmentRq = new CreateDepartmentRq();
+        createDepartmentRq.setName(DEVELOP);
+        createDepartmentRq.setCreateDate(LocalDate.now());
         DepartmentEntity departmentEntity = new DepartmentEntity();
         departmentEntity.setId(ID);
         when(departmentRepository.save(any())).thenReturn(departmentEntity);
 
-        Long departmentId = departmentService.createDepartment(departmentDto);
+        Long departmentId = departmentService.createDepartment(createDepartmentRq);
 
         assertEquals(ID, departmentId);
         verify(departmentRepository).save(any());
@@ -54,21 +54,19 @@ public class DepartmentServiceImplTest {
 
     @Test
     public void createDepartmentWithLeadId() {
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName(DEVELOP);
-        departmentDto.setCreateDate(LocalDate.now());
-        departmentDto.setLeadId(LEAD_ID);
+        CreateDepartmentRq createDepartmentRq = new CreateDepartmentRq();
+        createDepartmentRq.setName(DEVELOP);
+        createDepartmentRq.setCreateDate(LocalDate.now());
+        createDepartmentRq.setLeadId(LEAD_ID);
         DepartmentEntity departmentEntityOut = new DepartmentEntity();
         departmentEntityOut.setId(ID);
         DepartmentEntity leadDepartment = new DepartmentEntity();
         leadDepartment.setId(LEAD_ID);
         departmentEntityOut.setLeadDepartment(leadDepartment);
-        DepartmentEntity departmentEntityIn = departmentDto.mapToEntity();
-        departmentEntityIn.setLeadDepartment(leadDepartment);
-        when(departmentRepository.findById(LEAD_ID)).thenReturn(Optional.of(leadDepartment));
-        when(departmentRepository.save(departmentEntityIn)).thenReturn(departmentEntityOut);
+        when(departmentRepository.findById(any())).thenReturn(Optional.of(leadDepartment));
+        when(departmentRepository.save(any())).thenReturn(departmentEntityOut);
 
-        Long departmentId = departmentService.createDepartment(departmentDto);
+        Long departmentId = departmentService.createDepartment(createDepartmentRq);
 
         assertEquals(ID, departmentId);
         verify(departmentRepository).save(any());

@@ -3,8 +3,8 @@ package com.sapozhnikov.organizationmanagement.service.iml;
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
-import com.sapozhnikov.organizationmanagement.service.dto.DepartmentDto;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +21,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
 
     @Override
-    public Long createDepartment(DepartmentDto departmentDto) {
-        DepartmentEntity departmentEntity = departmentDto.mapToEntity();
-        Long leadId = departmentDto.getLeadId();
+    public Long createDepartment(CreateDepartmentRq createDepartmentRq) {
+        DepartmentEntity departmentEntity = mapToDepartmentEntity(createDepartmentRq);
+        Long leadId = createDepartmentRq.getLeadId();
         if (leadId != null) {
             departmentRepository.findById(leadId)
                     .ifPresent(departmentEntity::setLeadDepartment);
@@ -52,5 +52,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         } else {
             throw new ApiException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    protected DepartmentEntity mapToDepartmentEntity(CreateDepartmentRq createDepartmentRq) {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        departmentEntity.setName(createDepartmentRq.getName());
+        departmentEntity.setCreateDate(createDepartmentRq.getCreateDate());
+        return departmentEntity;
     }
 }
