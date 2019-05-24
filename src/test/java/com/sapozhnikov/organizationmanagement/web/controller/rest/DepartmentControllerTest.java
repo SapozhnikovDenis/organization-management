@@ -90,8 +90,7 @@ public class DepartmentControllerTest {
     public void getDepartment() throws Exception {
         String url = "/api/v1/department/{id}";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test

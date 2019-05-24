@@ -1,6 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
+import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.web.dto.department.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -71,11 +72,12 @@ public class DepartmentController {
     @ApiOperation("get department by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Department successfully found", response = GetDepartmentRs.class),
+            @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GetDepartmentRs> getDepartment(@PathVariable @NotNull
+    public GetDepartmentInfo getDepartment(@PathVariable @NotNull
                                                          @ApiParam(value = "id department", required = true) Long id){
-        return ResponseEntity.ok(new GetDepartmentRs());
+        return departmentService.getDepartmentInfo(id);
     }
 
     @ApiOperation("get direct subordinates departments")
