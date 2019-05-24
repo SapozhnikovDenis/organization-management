@@ -17,4 +17,6 @@ public interface DepartmentService {
     GetDepartmentInfo getDepartmentInfo(Long id);
 
     List<GetDepartmentInfo> getDirectSubordinatesDepartments(Long id);
+
+    List<GetDepartmentInfo> getAllSubordinatesDepartments(Long id);
 }

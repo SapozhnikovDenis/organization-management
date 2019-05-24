@@ -14,8 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -71,6 +73,26 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentEntity.getSubordinatesDepartments().stream()
                 .map(this::mapToGetDepartmentInfo)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GetDepartmentInfo> getAllSubordinatesDepartments(Long id) {
+        DepartmentEntity departmentEntity = getDepartmentEntityOrThrowNotFound(id);
+        HashSet<DepartmentEntity> uniqueDepartments = new HashSet<>();
+        putAllSubordinatesDepartments(departmentEntity, uniqueDepartments);
+        return uniqueDepartments.stream()
+                .map(this::mapToGetDepartmentInfo)
+                .collect(Collectors.toList());
+    }
+
+    private void putAllSubordinatesDepartments(DepartmentEntity departmentEntity,
+                                               Set<DepartmentEntity> uniqueDepartments) {
+        if (departmentEntity.getSubordinatesDepartments() != null) {
+            departmentEntity.getSubordinatesDepartments().forEach(subordinatesDepartment -> {
+                uniqueDepartments.add(subordinatesDepartment);
+                putAllSubordinatesDepartments(subordinatesDepartment, uniqueDepartments);
+            });
+        }
     }
 
     protected DepartmentEntity mapToDepartmentEntity(CreateDepartmentRq createDepartmentRq) {

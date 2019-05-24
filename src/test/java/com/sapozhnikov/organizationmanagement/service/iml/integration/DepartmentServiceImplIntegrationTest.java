@@ -23,9 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertEquals;
@@ -182,6 +180,49 @@ public class DepartmentServiceImplIntegrationTest {
         long id = 1L;
 
         departmentService.getDirectSubordinatesDepartments(id);
+    }
+
+
+    @Test
+    public void getAllSubordinatesDepartments() {
+        List<DepartmentEntity> secondLevelSubordinatesDepartments =
+                Collections.singletonList(new DepartmentEntity());
+        DepartmentEntity firstLevelDepartment = new DepartmentEntity();
+        firstLevelDepartment.setSubordinatesDepartments(secondLevelSubordinatesDepartments);
+        List<DepartmentEntity> firstLevelSubordinatesDepartments =
+                Collections.singletonList(firstLevelDepartment);
+        DepartmentEntity targetDepartment = new DepartmentEntity();
+        targetDepartment.setSubordinatesDepartments(firstLevelSubordinatesDepartments);
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(targetDepartment);
+        Long id = saveDepartmentEntity.getId();
+
+        List<GetDepartmentInfo> directSubordinatesDepartments =
+                departmentService.getAllSubordinatesDepartments(id);
+
+        int expectedSubordinatesDepartments = firstLevelSubordinatesDepartments.size() +
+                secondLevelSubordinatesDepartments.size();
+        assertEquals(expectedSubordinatesDepartments, directSubordinatesDepartments.size());
+    }
+
+    @Test
+    public void getAllSubordinatesDepartmentsCheckUnique() {
+        DepartmentEntity duplicate = new DepartmentEntity();
+        List<DepartmentEntity> secondLevelSubordinatesDepartments = Arrays.asList(new DepartmentEntity(), duplicate);
+        DepartmentEntity firstLevelDepartment = new DepartmentEntity();
+        firstLevelDepartment.setSubordinatesDepartments(secondLevelSubordinatesDepartments);
+        List<DepartmentEntity> firstLevelSubordinatesDepartments = Arrays.asList(firstLevelDepartment, duplicate);
+        DepartmentEntity targetDepartment = new DepartmentEntity();
+        targetDepartment.setSubordinatesDepartments(firstLevelSubordinatesDepartments);
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(targetDepartment);
+        Long id = saveDepartmentEntity.getId();
+
+        List<GetDepartmentInfo> directSubordinatesDepartments =
+                departmentService.getAllSubordinatesDepartments(id);
+
+        Set<DepartmentEntity> uniqueDepartments = new HashSet<>();
+        uniqueDepartments.addAll(firstLevelSubordinatesDepartments);
+        uniqueDepartments.addAll(secondLevelSubordinatesDepartments);
+        assertEquals(uniqueDepartments.size(), directSubordinatesDepartments.size());
     }
 }
 
