@@ -14,6 +14,9 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -130,5 +133,27 @@ public class DepartmentServiceImplTest {
         when(departmentRepository.findById(id)).thenReturn(Optional.empty());
 
         departmentService.getDepartmentInfo(id);
+    }
+
+    @Test
+    public void getDirectSubordinatesDepartmentsSuccessful() {
+        long id = 1L;
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        List<DepartmentEntity> subordinatesDepartments = Collections.singletonList(new DepartmentEntity());
+        departmentEntity.setSubordinatesDepartments(subordinatesDepartments);
+        when(departmentRepository.findById(id)).thenReturn(Optional.of(departmentEntity));
+
+        List<GetDepartmentInfo> directSubordinatesDepartments =
+                departmentService.getDirectSubordinatesDepartments(id);
+
+        assertEquals(subordinatesDepartments.size(), directSubordinatesDepartments.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void getDirectSubordinatesDepartmentsNotFoundDepartment() {
+        long id = 1L;
+        when(departmentRepository.findById(id)).thenReturn(Optional.empty());
+
+        departmentService.getDirectSubordinatesDepartments(id);
     }
 }

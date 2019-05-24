@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -60,9 +61,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public GetDepartmentInfo getDepartmentInfo(Long id) {
-        DepartmentEntity departmentEntity = departmentRepository.findById(id)
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND));
+        DepartmentEntity departmentEntity = getDepartmentEntityOrThrowNotFound(id);
         return mapToGetDepartmentInfo(departmentEntity);
+    }
+
+    @Override
+    public List<GetDepartmentInfo> getDirectSubordinatesDepartments(Long id) {
+        DepartmentEntity departmentEntity = getDepartmentEntityOrThrowNotFound(id);
+        return departmentEntity.getSubordinatesDepartments().stream()
+                .map(this::mapToGetDepartmentInfo)
+                .collect(Collectors.toList());
     }
 
     protected DepartmentEntity mapToDepartmentEntity(CreateDepartmentRq createDepartmentRq) {
@@ -101,4 +109,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         return getLeaderDepartmentRs;
     }
 
+    private DepartmentEntity getDepartmentEntityOrThrowNotFound(Long id) {
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND));
+    }
 }

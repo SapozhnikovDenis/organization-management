@@ -36,7 +36,7 @@ public class DepartmentController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createDepartment(@RequestBody @Valid @ApiParam("json create department")
-                                                             CreateDepartmentRq createDepartmentRq) {
+                                                         CreateDepartmentRq createDepartmentRq) {
         Long idDepartment = departmentService.createDepartment(createDepartmentRq);
         URI uri = URI.create("/api/v1/department/" + idDepartment);
         return ResponseEntity.created(uri).build();
@@ -50,9 +50,8 @@ public class DepartmentController {
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/rename", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> renameDepartment(@RequestBody @Valid
-                                                     @ApiParam(value = "json rename department", required = true)
-                                                             RenameDepartmentRq renameDepartmentRq) {
+    public ResponseEntity<Void> renameDepartment(@ApiParam(value = "json rename department", required = true)
+                                                     @RequestBody @Valid RenameDepartmentRq renameDepartmentRq) {
         departmentService.renameDepartment(renameDepartmentRq);
         return ResponseEntity.ok().build();
     }
@@ -63,8 +62,8 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeDepartment(@PathVariable @NotNull
-                                                     @ApiParam(value = "id department", required = true) Long id){
+    public ResponseEntity<Void> removeDepartment(@ApiParam(value = "id department", required = true)
+                                                     @PathVariable @NotNull Long id) {
         departmentService.removeDepartment(id);
         return ResponseEntity.ok().build();
     }
@@ -75,8 +74,8 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GetDepartmentInfo getDepartment(@PathVariable @NotNull
-                                                         @ApiParam(value = "id department", required = true) Long id){
+    public GetDepartmentInfo getDepartment(@ApiParam(value = "id department", required = true)
+                                               @PathVariable @NotNull Long id) {
         return departmentService.getDepartmentInfo(id);
     }
 
@@ -87,10 +86,9 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = "/{id}/subordinate/direct", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getDirectSubordinatesDepartments(@PathVariable @NotNull
-                                                                     @ApiParam(value = "id department", required = true)
-                                                                                              Long id){
-        return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
+    public List<GetDepartmentInfo> getDirectSubordinatesDepartments(@ApiParam(value = "id department", required = true)
+                                                                  @PathVariable @NotNull Long id) {
+        return departmentService.getDirectSubordinatesDepartments(id);
     }
 
     @ApiOperation("get all subordinates departments")
@@ -101,8 +99,8 @@ public class DepartmentController {
     })
     @GetMapping(value = "/{id}/subordinate/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getAllSubordinatesDepartments(@PathVariable
-                                                                    @ApiParam(value = "id department", required = true)
-                                                                                           Long id){
+                                                                               @ApiParam(value = "id department", required = true)
+                                                                                       Long id) {
         return ResponseEntity.ok(Collections.singletonList(new GetDepartmentRs()));
     }
 
@@ -115,8 +113,8 @@ public class DepartmentController {
     })
     @PutMapping(value = "/leader", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> changeLeaderDepartment(@RequestBody @Valid
-                                                    @ApiParam(value = "json change leader department", required = true)
-                                                                   ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
+                                                       @ApiParam(value = "json change leader department", required = true)
+                                                               ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
         return ResponseEntity.ok().build();
     }
 
@@ -128,8 +126,8 @@ public class DepartmentController {
     })
     @GetMapping(value = "/{id}/leader", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable @NotNull
-                                                                   @ApiParam(value = "id department", required = true)
-                                                                                Long id) {
+                                                                    @ApiParam(value = "id department", required = true)
+                                                                            Long id) {
         return ResponseEntity.ok().build();
     }
 
@@ -140,8 +138,8 @@ public class DepartmentController {
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam("name") @NotNull
-                                                             @ApiParam(value = "name department", required = true)
-                                                                     String name){
+                                                         @ApiParam(value = "name department", required = true)
+                                                                 String name) {
         return ResponseEntity.ok(new GetDepartmentRs());
     }
 
@@ -153,8 +151,8 @@ public class DepartmentController {
     })
     @GetMapping(value = "/{id}/salary", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@PathVariable @NotNull
-                                                                    @ApiParam(value = "id department", required = true)
-                                                                                     Long id){
+                                                                         @ApiParam(value = "id department", required = true)
+                                                                                 Long id) {
         return ResponseEntity.ok(new GetSalaryDepartmentRs());
     }
 }

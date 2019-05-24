@@ -23,11 +23,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @DataJpaTest
@@ -157,6 +161,27 @@ public class DepartmentServiceImplIntegrationTest {
         long id = 1L;
         assertFalse(departmentRepository.existsById(id));
         departmentService.getDepartmentInfo(id);
+    }
+
+    @Test
+    public void getDirectSubordinatesDepartmentsSuccessful() {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        List<DepartmentEntity> subordinatesDepartments = Collections.singletonList(new DepartmentEntity());
+        departmentEntity.setSubordinatesDepartments(subordinatesDepartments);
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(departmentEntity);
+        Long id = saveDepartmentEntity.getId();
+
+        List<GetDepartmentInfo> directSubordinatesDepartments =
+                departmentService.getDirectSubordinatesDepartments(id);
+
+        assertEquals(subordinatesDepartments.size(), directSubordinatesDepartments.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void getDirectSubordinatesDepartmentsNotFoundDepartment() {
+        long id = 1L;
+
+        departmentService.getDirectSubordinatesDepartments(id);
     }
 }
 
