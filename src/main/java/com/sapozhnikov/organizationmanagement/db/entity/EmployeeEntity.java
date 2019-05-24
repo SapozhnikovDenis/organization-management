@@ -2,6 +2,7 @@ package com.sapozhnikov.organizationmanagement.db.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
+@Audited
 @NoArgsConstructor
 @Table(name = "employee")
 public class EmployeeEntity {
@@ -64,4 +66,8 @@ public class EmployeeEntity {
     @NotNull
     @Column(name = "lead_in_department")
     private Boolean leadInDepartment;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity department;
 }

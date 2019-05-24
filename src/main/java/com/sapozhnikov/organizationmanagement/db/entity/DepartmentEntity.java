@@ -32,4 +32,7 @@ public class DepartmentEntity {
 
     @OneToMany(mappedBy = "leadDepartment")
     private List<DepartmentEntity> subordinatesDepartments;
+
+    @OneToMany(mappedBy = "department")
+    private List<EmployeeEntity> employees;
 }
