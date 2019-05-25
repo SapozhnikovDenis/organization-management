@@ -1,6 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
+import com.sapozhnikov.organizationmanagement.service.EmployeeService;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.web.dto.department.*;
 import io.swagger.annotations.*;
@@ -25,6 +26,7 @@ import java.util.List;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+    private final EmployeeService employeeService;
 
     @ApiOperation("create department")
     @ApiResponses({
@@ -146,8 +148,8 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = "/{id}/salary", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@ApiParam(value = "id department", required = true)
+    public GetSalaryDepartmentRs getSalaryFullDepartment(@ApiParam(value = "id department", required = true)
                                                                              @PathVariable @NotNull Long id) {
-        return ResponseEntity.ok(new GetSalaryDepartmentRs());
+        return employeeService.getSalaryFullDepartment(id);
     }
 }
