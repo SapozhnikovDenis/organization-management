@@ -2,16 +2,17 @@ package com.sapozhnikov.organizationmanagement.db.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Audited
-@NoArgsConstructor
 @Table(name = "department")
 public class DepartmentEntity {
 
@@ -30,9 +31,16 @@ public class DepartmentEntity {
     @JoinColumn(name = "leadDepartment_id")
     private DepartmentEntity leadDepartment;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "leadDepartment")
     private List<DepartmentEntity> subordinatesDepartments;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "department")
     private List<EmployeeEntity> employees;
+
+    public DepartmentEntity() {
+        this.subordinatesDepartments = new ArrayList<>();
+        this.employees = new ArrayList<>();
+    }
 }

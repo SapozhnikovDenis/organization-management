@@ -6,6 +6,7 @@ import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetLeaderDepartmentRs;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
@@ -13,11 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,34 +24,39 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
 
+    private static final String LEAD_NOT_FOUND_MESSAGE = "lead department not found!";
+    private static final String TARGET_DEPARTMENT_NOT_FOUND_MESSAGE = "target department not found!";
+
     private final DepartmentRepository departmentRepository;
 
     @Override
+    @Transactional
     public Long createDepartment(CreateDepartmentRq createDepartmentRq) {
-        DepartmentEntity departmentEntity = mapToDepartmentEntity(createDepartmentRq);
+        DepartmentEntity department = mapToDepartmentEntity(createDepartmentRq);
         Long leadId = createDepartmentRq.getLeadId();
+        DepartmentEntity saveDepartment;
         if (leadId != null) {
-            departmentRepository.findById(leadId)
-                    .ifPresent(departmentEntity::setLeadDepartment);
+            DepartmentEntity leadDepartment = findDepartmentOrThrowNotFound(leadId, LEAD_NOT_FOUND_MESSAGE);
+            department.setLeadDepartment(leadDepartment);
+            saveDepartment = departmentRepository.save(department);
+            leadDepartment.getSubordinatesDepartments().add(saveDepartment);
+            departmentRepository.save(leadDepartment);
+        } else {
+            saveDepartment = departmentRepository.save(department);
         }
-        DepartmentEntity saveDepartment = departmentRepository.save(departmentEntity);
         return saveDepartment.getId();
     }
 
     @Override
+    @Transactional
     public void renameDepartment(RenameDepartmentRq renameDepartmentRq) {
-        Optional<DepartmentEntity> optionalDepartmentEntity =
-                departmentRepository.findById(renameDepartmentRq.getId());
-        if (optionalDepartmentEntity.isPresent()) {
-            DepartmentEntity departmentEntity = optionalDepartmentEntity.get();
-            departmentEntity.setName(renameDepartmentRq.getNewName());
-            departmentRepository.save(departmentEntity);
-        } else {
-            throw new ApiException(HttpStatus.NOT_FOUND);
-        }
+        DepartmentEntity department = findDepartmentOrThrowNotFound(renameDepartmentRq.getId());
+        department.setName(renameDepartmentRq.getNewName());
+        departmentRepository.save(department);
     }
 
     @Override
+    @Transactional
     public void removeDepartment(Long id) {
         if (departmentRepository.existsById(id)) {
             departmentRepository.deleteById(id);
@@ -63,26 +67,42 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public GetDepartmentInfo getDepartmentInfo(Long id) {
-        DepartmentEntity departmentEntity = getDepartmentEntityOrThrowNotFound(id);
-        return mapToGetDepartmentInfo(departmentEntity);
+        DepartmentEntity department = findDepartmentOrThrowNotFound(id);
+        return mapToGetDepartmentInfo(department);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GetDepartmentInfo> getDirectSubordinatesDepartments(Long id) {
-        DepartmentEntity departmentEntity = getDepartmentEntityOrThrowNotFound(id);
-        return departmentEntity.getSubordinatesDepartments().stream()
+        DepartmentEntity department = findDepartmentOrThrowNotFound(id, TARGET_DEPARTMENT_NOT_FOUND_MESSAGE);
+        return department.getSubordinatesDepartments().stream()
                 .map(this::mapToGetDepartmentInfo)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GetDepartmentInfo> getAllSubordinatesDepartments(Long id) {
-        DepartmentEntity departmentEntity = getDepartmentEntityOrThrowNotFound(id);
+        DepartmentEntity department = findDepartmentOrThrowNotFound(id);
         HashSet<DepartmentEntity> uniqueDepartments = new HashSet<>();
-        putAllSubordinatesDepartments(departmentEntity, uniqueDepartments);
+        putAllSubordinatesDepartments(department, uniqueDepartments);
         return uniqueDepartments.stream()
                 .map(this::mapToGetDepartmentInfo)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void changeLeaderDepartment(ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
+        DepartmentEntity department = findDepartmentOrThrowNotFound(
+                changeLeaderDepartmentRq.getDepartmentId(), TARGET_DEPARTMENT_NOT_FOUND_MESSAGE);
+        DepartmentEntity newLeadDepartment = findDepartmentOrThrowNotFound(
+                changeLeaderDepartmentRq.getNewLeadId(), LEAD_NOT_FOUND_MESSAGE);
+        DepartmentEntity oldLeadDepartment = department.getLeadDepartment();
+        oldLeadDepartment.getSubordinatesDepartments().remove(department);
+        department.setLeadDepartment(newLeadDepartment);
+        newLeadDepartment.getSubordinatesDepartments().add(department);
+        departmentRepository.saveAll(Arrays.asList(oldLeadDepartment, department, newLeadDepartment));
     }
 
     private void putAllSubordinatesDepartments(DepartmentEntity departmentEntity,
@@ -114,7 +134,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                             && employee.getLeadInDepartment())
                     .findFirst();
             EmployeeEntity employeeEntity = leadEmployee.orElseThrow(
-                    () -> new ApiException(HttpStatus.CONFLICT));
+                    () -> new ApiException("department not have lead!", HttpStatus.CONFLICT));
             getDepartmentInfo.setLeader(mapToGetLeaderDepartmentRs(employeeEntity));
         }
         return getDepartmentInfo;
@@ -131,8 +151,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         return getLeaderDepartmentRs;
     }
 
-    private DepartmentEntity getDepartmentEntityOrThrowNotFound(Long id) {
+    private DepartmentEntity findDepartmentOrThrowNotFound(Long id) {
+        return findDepartmentOrThrowNotFound(id, null);
+    }
+
+    private DepartmentEntity findDepartmentOrThrowNotFound(Long id, String throwMessage) {
         return departmentRepository.findById(id)
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiException(throwMessage, HttpStatus.NOT_FOUND));
     }
 }

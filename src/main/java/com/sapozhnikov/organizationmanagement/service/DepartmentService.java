@@ -1,6 +1,7 @@
 package com.sapozhnikov.organizationmanagement.service;
 
 import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
+import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 
@@ -19,4 +20,6 @@ public interface DepartmentService {
     List<GetDepartmentInfo> getDirectSubordinatesDepartments(Long id);
 
     List<GetDepartmentInfo> getAllSubordinatesDepartments(Long id);
+
+    void changeLeaderDepartment(ChangeLeaderDepartmentRq changeLeaderDepartmentRq);
 }

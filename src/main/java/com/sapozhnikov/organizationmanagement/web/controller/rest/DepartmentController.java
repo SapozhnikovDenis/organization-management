@@ -114,6 +114,7 @@ public class DepartmentController {
     public ResponseEntity<Void> changeLeaderDepartment(@RequestBody @Valid
                                                        @ApiParam(value = "json change leader department", required = true)
                                                                ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
+        departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
         return ResponseEntity.ok().build();
     }
 

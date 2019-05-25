@@ -6,6 +6,7 @@ import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import org.junit.Before;
@@ -77,7 +78,7 @@ public class DepartmentServiceImplIntegrationTest {
         assertEquals(createDepartmentRq.getName(), departmentEntity.getName());
         assertEquals(createDepartmentRq.getCreateDate(), departmentEntity.getCreateDate());
         assertNull(departmentEntity.getLeadDepartment());
-        assertNull(departmentEntity.getSubordinatesDepartments());
+        assertTrue(departmentEntity.getSubordinatesDepartments().isEmpty());
     }
 
     @Test
@@ -85,18 +86,19 @@ public class DepartmentServiceImplIntegrationTest {
         CreateDepartmentRq createDepartmentRq = new CreateDepartmentRq();
         createDepartmentRq.setName(DEVELOP);
         createDepartmentRq.setCreateDate(LocalDate.now());
-        createDepartmentRq.setLeadId(LEAD_ID);
         DepartmentEntity leadDepartment = new DepartmentEntity();
-        leadDepartment.setId(LEAD_ID);
-        departmentRepository.save(leadDepartment);
+        DepartmentEntity saveLeadDepartment = departmentRepository.save(leadDepartment);
+        Long leadDepartmentId = saveLeadDepartment.getId();
+        createDepartmentRq.setLeadId(leadDepartmentId);
+        leadDepartment.setId(leadDepartmentId);
 
         Long departmentId = departmentService.createDepartment(createDepartmentRq);
 
         DepartmentEntity departmentEntity = departmentRepository.getOne(departmentId);
         assertEquals(createDepartmentRq.getName(), departmentEntity.getName());
         assertEquals(createDepartmentRq.getCreateDate(), departmentEntity.getCreateDate());
-        assertNull(departmentEntity.getLeadDepartment());
-        assertNull(departmentEntity.getSubordinatesDepartments());
+        assertNotNull(departmentEntity.getLeadDepartment());
+        assertTrue(departmentEntity.getSubordinatesDepartments().isEmpty());
     }
 
     @Test
@@ -223,6 +225,37 @@ public class DepartmentServiceImplIntegrationTest {
         uniqueDepartments.addAll(firstLevelSubordinatesDepartments);
         uniqueDepartments.addAll(secondLevelSubordinatesDepartments);
         assertEquals(uniqueDepartments.size(), directSubordinatesDepartments.size());
+    }
+
+
+
+    @Test
+    public void changeLeaderDepartmentSuccessful() {
+        DepartmentEntity targetDepartment = new DepartmentEntity();
+        DepartmentEntity oldLeadDepartment = new DepartmentEntity();
+        targetDepartment.setLeadDepartment(oldLeadDepartment);
+        oldLeadDepartment.setSubordinatesDepartments(new ArrayList<>());
+        DepartmentEntity saveTargetDepartment = departmentRepository.save(targetDepartment);
+        Long saveTargetDepartmentId = saveTargetDepartment.getId();
+        DepartmentEntity newLeadDepartment = new DepartmentEntity();
+        newLeadDepartment.setSubordinatesDepartments(new ArrayList<>());
+        DepartmentEntity saveNewLeadDepartment = departmentRepository.save(newLeadDepartment);
+        long saveNewLeadDepartmentId = saveNewLeadDepartment.getId();
+        ChangeLeaderDepartmentRq changeLeaderDepartmentRq = new ChangeLeaderDepartmentRq();
+        changeLeaderDepartmentRq.setDepartmentId(saveTargetDepartmentId);
+        changeLeaderDepartmentRq.setNewLeadId(saveNewLeadDepartmentId);
+
+
+        departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
+    }
+
+    @Test(expected = ApiException.class)
+    public void changeLeaderDepartmentNotFoundDepartment() {
+        ChangeLeaderDepartmentRq changeLeaderDepartmentRq = new ChangeLeaderDepartmentRq();
+        changeLeaderDepartmentRq.setDepartmentId(1L);
+        changeLeaderDepartmentRq.setNewLeadId(2L);
+
+        departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
     }
 }
 

@@ -5,6 +5,7 @@ import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
 import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
+import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;
 import org.junit.Before;
@@ -63,14 +64,14 @@ public class DepartmentServiceImplTest {
         departmentEntityOut.setId(ID);
         DepartmentEntity leadDepartment = new DepartmentEntity();
         leadDepartment.setId(LEAD_ID);
+        leadDepartment.setSubordinatesDepartments(new ArrayList<>());
         departmentEntityOut.setLeadDepartment(leadDepartment);
-        when(departmentRepository.findById(any())).thenReturn(Optional.of(leadDepartment));
+        when(departmentRepository.findById(LEAD_ID)).thenReturn(Optional.of(leadDepartment));
         when(departmentRepository.save(any())).thenReturn(departmentEntityOut);
 
         Long departmentId = departmentService.createDepartment(createDepartmentRq);
 
         assertEquals(ID, departmentId);
-        verify(departmentRepository).save(any());
     }
 
     @Test(expected = ApiException.class)
@@ -195,4 +196,39 @@ public class DepartmentServiceImplTest {
         uniqueDepartments.addAll(secondLevelSubordinatesDepartments);
         assertEquals(uniqueDepartments.size(), directSubordinatesDepartments.size());
     }
+
+    @Test
+    public void changeLeaderDepartmentSuccessful() {
+        long departmentId = 1L;
+        long leadDepartmentId = 2L;
+        ChangeLeaderDepartmentRq changeLeaderDepartmentRq = new ChangeLeaderDepartmentRq();
+        changeLeaderDepartmentRq.setDepartmentId(departmentId);
+        changeLeaderDepartmentRq.setNewLeadId(leadDepartmentId);
+        DepartmentEntity targetDepartment = new DepartmentEntity();
+        DepartmentEntity oldLeadDepartment = new DepartmentEntity();
+        targetDepartment.setLeadDepartment(oldLeadDepartment);
+        oldLeadDepartment.setSubordinatesDepartments(new ArrayList<>());
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(targetDepartment));
+        DepartmentEntity newLeadDepartment = new DepartmentEntity();
+        newLeadDepartment.setSubordinatesDepartments(new ArrayList<>());
+        when(departmentRepository.findById(leadDepartmentId)).thenReturn(Optional.of(newLeadDepartment));
+
+
+        departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
+    }
+
+    @Test(expected = ApiException.class)
+    public void changeLeaderDepartmentNotFoundDepartment() {
+        long departmentId = 1L;
+        long leadDepartmentId = 2L;
+        ChangeLeaderDepartmentRq changeLeaderDepartmentRq = new ChangeLeaderDepartmentRq();
+        changeLeaderDepartmentRq.setDepartmentId(departmentId);
+        changeLeaderDepartmentRq.setNewLeadId(leadDepartmentId);
+        long id = 1L;
+        when(departmentRepository.findById(id)).thenReturn(Optional.empty());
+
+        departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
+    }
+
+
 }

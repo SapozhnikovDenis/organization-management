@@ -37,7 +37,7 @@ public class MappingDepartmentTest extends DepartmentServiceImpl {
         assertEquals(createDepartmentRq.getName(), departmentEntity.getName());
         assertEquals(createDepartmentRq.getCreateDate(), departmentEntity.getCreateDate());
         assertNull(departmentEntity.getLeadDepartment());
-        assertNull(departmentEntity.getSubordinatesDepartments());
+        assertTrue(departmentEntity.getSubordinatesDepartments().isEmpty());
     }
 
     @Test
