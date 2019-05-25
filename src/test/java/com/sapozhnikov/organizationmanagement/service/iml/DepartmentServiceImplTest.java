@@ -230,5 +230,56 @@ public class DepartmentServiceImplTest {
         departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
     }
 
+    @Test(expected = ApiException.class)
+    public void getLeadDepartmentsNotFoundDepartment() {
+        long departmentId = 1L;
+        DepartmentEntity department = new DepartmentEntity();
+        department.setId(departmentId);
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.empty());
 
+        departmentService.getLeadDepartments(departmentId);
+    }
+
+    @Test
+    public void getLeadEmptyDepartments() {
+        long departmentId = 1L;
+        DepartmentEntity department = new DepartmentEntity();
+        department.setId(departmentId);
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+
+        List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(departmentId);
+
+        assertTrue(leadDepartments.isEmpty());
+    }
+
+    @Test
+    public void getLeadDepartments() {
+        long departmentId = 1L;
+        DepartmentEntity department = new DepartmentEntity();
+        department.setId(departmentId);
+        DepartmentEntity leadDepartment = new DepartmentEntity();
+        leadDepartment.setId(2L);
+        leadDepartment.setLeadDepartment(new DepartmentEntity());
+        department.setLeadDepartment(leadDepartment);
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+
+        List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(departmentId);
+
+        assertEquals(2,leadDepartments.size());
+    }
+
+    @Test
+    public void getLeadDepartmentsWithDuplicate() {
+        long departmentId = 1L;
+        DepartmentEntity department = new DepartmentEntity();
+        department.setId(departmentId);
+        DepartmentEntity leadDepartment = new DepartmentEntity();
+        leadDepartment.setLeadDepartment(new DepartmentEntity());
+        department.setLeadDepartment(leadDepartment);
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+
+        List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(departmentId);
+
+        assertEquals(2,leadDepartments.size());
+    }
 }

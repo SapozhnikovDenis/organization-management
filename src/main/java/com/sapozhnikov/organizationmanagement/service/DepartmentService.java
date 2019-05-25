@@ -22,4 +22,7 @@ public interface DepartmentService {
     List<GetDepartmentInfo> getAllSubordinatesDepartments(Long id);
 
     void changeLeaderDepartment(ChangeLeaderDepartmentRq changeLeaderDepartmentRq);
+
+    List<GetDepartmentInfo> getLeadDepartments(Long id);
+
 }

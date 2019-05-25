@@ -30,6 +30,7 @@ import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
@@ -41,7 +42,6 @@ public class DepartmentServiceImplIntegrationTest {
 
     private static final String QA = "qa";
     private static final String DEVELOP = "develop";
-    private static final long LEAD_ID = 987654321L;
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -253,9 +253,42 @@ public class DepartmentServiceImplIntegrationTest {
     public void changeLeaderDepartmentNotFoundDepartment() {
         ChangeLeaderDepartmentRq changeLeaderDepartmentRq = new ChangeLeaderDepartmentRq();
         changeLeaderDepartmentRq.setDepartmentId(1L);
-        changeLeaderDepartmentRq.setNewLeadId(2L);
 
         departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
+    }
+
+
+    @Test(expected = ApiException.class)
+    public void getLeadDepartmentsNotFoundDepartment() {
+        long departmentId = 1L;
+        DepartmentEntity department = new DepartmentEntity();
+        department.setId(departmentId);
+
+        departmentService.getLeadDepartments(departmentId);
+    }
+
+    @Test
+    public void getLeadEmptyDepartments() {
+        DepartmentEntity saveDepartment = departmentRepository.save(new DepartmentEntity());
+
+        List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(saveDepartment.getId());
+
+        assertTrue(leadDepartments.isEmpty());
+    }
+
+    @Test
+    public void getLeadDepartments() {
+        DepartmentEntity department = new DepartmentEntity();
+        DepartmentEntity leadDepartment = new DepartmentEntity();
+        leadDepartment.setLeadDepartment(new DepartmentEntity());
+        departmentRepository.save(leadDepartment);
+        department.setLeadDepartment(leadDepartment);
+        DepartmentEntity saveDepartment = departmentRepository.save(department);
+
+
+        List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(saveDepartment.getId());
+
+        assertEquals(2,leadDepartments.size());
     }
 }
 

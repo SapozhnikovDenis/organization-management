@@ -99,7 +99,7 @@ public class DepartmentController {
     })
     @GetMapping(value = "/{id}/subordinate/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<GetDepartmentInfo> getAllSubordinatesDepartments(@ApiParam(value = "id department", required = true)
-                                                               @PathVariable @NotNull Long id) {
+                                                                 @PathVariable @NotNull Long id) {
         return departmentService.getAllSubordinatesDepartments(id);
     }
 
@@ -111,9 +111,8 @@ public class DepartmentController {
             @ApiResponse(code = 415, message = "Service expect json")
     })
     @PutMapping(value = "/leader", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> changeLeaderDepartment(@RequestBody @Valid
-                                                       @ApiParam(value = "json change leader department", required = true)
-                                                               ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
+    public ResponseEntity<Void> changeLeaderDepartment(@ApiParam(value = "json change leader department", required = true)
+                                                       @RequestBody @Valid ChangeLeaderDepartmentRq changeLeaderDepartmentRq) {
         departmentService.changeLeaderDepartment(changeLeaderDepartmentRq);
         return ResponseEntity.ok().build();
     }
@@ -125,10 +124,9 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = "/{id}/leader", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GetDepartmentRs>> getLeadDepartments(@PathVariable @NotNull
-                                                                    @ApiParam(value = "id department", required = true)
-                                                                            Long id) {
-        return ResponseEntity.ok().build();
+    public List<GetDepartmentInfo> getLeadDepartments(@ApiParam(value = "id department", required = true)
+                                                      @PathVariable @NotNull Long id) {
+        return departmentService.getLeadDepartments(id);
     }
 
     @ApiOperation("get department by name")

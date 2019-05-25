@@ -105,6 +105,25 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.saveAll(Arrays.asList(oldLeadDepartment, department, newLeadDepartment));
     }
 
+    @Override
+    @Transactional
+    public List<GetDepartmentInfo> getLeadDepartments(Long id) {
+        DepartmentEntity department = findDepartmentOrThrowNotFound(id, TARGET_DEPARTMENT_NOT_FOUND_MESSAGE);
+        Set<DepartmentEntity> leadDepartments = new HashSet<>();
+        putAllLeadDepartments(department, leadDepartments);
+        return leadDepartments.stream()
+                .map(this::mapToGetDepartmentInfo)
+                .collect(Collectors.toList());
+    }
+
+    private void putAllLeadDepartments(DepartmentEntity department, Set<DepartmentEntity> leadDepartments) {
+        DepartmentEntity leadDepartment = department.getLeadDepartment();
+        if (leadDepartment != null) {
+            leadDepartments.add(leadDepartment);
+            putAllLeadDepartments(leadDepartment, leadDepartments);
+        }
+    }
+
     private void putAllSubordinatesDepartments(DepartmentEntity departmentEntity,
                                                Set<DepartmentEntity> uniqueDepartments) {
         if (departmentEntity.getSubordinatesDepartments() != null) {
