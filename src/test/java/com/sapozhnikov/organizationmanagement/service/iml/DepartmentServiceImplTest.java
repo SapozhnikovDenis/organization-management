@@ -19,6 +19,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -281,5 +282,21 @@ public class DepartmentServiceImplTest {
         List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(departmentId);
 
         assertEquals(2,leadDepartments.size());
+    }
+
+    @Test
+    public void getDepartment() {
+        when(departmentRepository.findByName(DEVELOP)).thenReturn(Optional.of(new DepartmentEntity()));
+
+        GetDepartmentInfo department = departmentService.getDepartment(DEVELOP);
+
+        assertNotNull(department);
+    }
+
+    @Test(expected = ApiException.class)
+    public void getDepartmentNotFoundDepartment() {
+        when(departmentRepository.findByName(DEVELOP)).thenReturn(Optional.empty());
+
+        departmentService.getDepartment(DEVELOP);
     }
 }

@@ -116,6 +116,13 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public GetDepartmentInfo getDepartment(String name) {
+        DepartmentEntity department = departmentRepository.findByName(name)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND));
+        return mapToGetDepartmentInfo(department);
+    }
+
     private void putAllLeadDepartments(DepartmentEntity department, Set<DepartmentEntity> leadDepartments) {
         DepartmentEntity leadDepartment = department.getLeadDepartment();
         if (leadDepartment != null) {

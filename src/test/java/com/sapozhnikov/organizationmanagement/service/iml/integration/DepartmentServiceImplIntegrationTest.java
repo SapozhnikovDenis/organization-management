@@ -290,5 +290,22 @@ public class DepartmentServiceImplIntegrationTest {
 
         assertEquals(2,leadDepartments.size());
     }
+
+    @Test
+    public void getDepartment() {
+        DepartmentEntity department = new DepartmentEntity();
+        department.setName(DEVELOP);
+        departmentRepository.save(department);
+
+        GetDepartmentInfo getDepartmentInfo = departmentService.getDepartment(department.getName());
+
+        assertNotNull(getDepartmentInfo);
+    }
+
+    @Test(expected = ApiException.class)
+    public void getDepartmentNotFoundDepartment() {
+        assertFalse(departmentRepository.findByName(DEVELOP).isPresent());
+        departmentService.getDepartment(DEVELOP);
+    }
 }
 

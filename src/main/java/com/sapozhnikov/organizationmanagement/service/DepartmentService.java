@@ -25,4 +25,6 @@ public interface DepartmentService {
 
     List<GetDepartmentInfo> getLeadDepartments(Long id);
 
+    GetDepartmentInfo getDepartment(String name);
+
 }

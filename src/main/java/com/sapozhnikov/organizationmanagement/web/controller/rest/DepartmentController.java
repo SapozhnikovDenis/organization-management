@@ -135,10 +135,9 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GetDepartmentRs> getDepartment(@PathParam("name") @NotNull
-                                                         @ApiParam(value = "name department", required = true)
-                                                                 String name) {
-        return ResponseEntity.ok(new GetDepartmentRs());
+    public GetDepartmentInfo getDepartment(@ApiParam(value = "name department", required = true)
+                                           @PathParam("name") @NotNull String name) {
+        return departmentService.getDepartment(name);
     }
 
     @ApiOperation("get salary full department")
@@ -148,9 +147,8 @@ public class DepartmentController {
             @ApiResponse(code = 404, message = "Department not found")
     })
     @GetMapping(value = "/{id}/salary", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@PathVariable @NotNull
-                                                                         @ApiParam(value = "id department", required = true)
-                                                                                 Long id) {
+    public ResponseEntity<GetSalaryDepartmentRs> getSalaryFullDepartment(@ApiParam(value = "id department", required = true)
+                                                                             @PathVariable @NotNull Long id) {
         return ResponseEntity.ok(new GetSalaryDepartmentRs());
     }
 }
