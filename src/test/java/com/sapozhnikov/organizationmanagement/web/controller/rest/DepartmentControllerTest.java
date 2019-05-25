@@ -1,6 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
+import com.sapozhnikov.organizationmanagement.service.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,13 +25,15 @@ public class DepartmentControllerTest {
 
     @Mock
     private DepartmentService departmentService;
+    @Mock
+    private EmployeeService employeeService;
 
     private MockMvc mockDepartmentController;
 
     @Before
     public void init(){
         mockDepartmentController =
-                standaloneSetup(new DepartmentController(departmentService)).build();
+                standaloneSetup(new DepartmentController(departmentService, employeeService)).build();
     }
 
     @Test
@@ -138,15 +141,13 @@ public class DepartmentControllerTest {
     public void getDepartmentByName() throws Exception {
         mockDepartmentController.perform(get("/api/v1/department")
                 .param("name", DEVELOP_DEPARTMENT_NAME))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void getSalaryFullDepartment() throws Exception {
         String url = "/api/v1/department/{id}/salary";
         mockDepartmentController.perform(get(url, DEVELOP_DEPARTMENT_ID))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(status().is2xxSuccessful());
     }
 }

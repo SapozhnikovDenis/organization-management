@@ -86,6 +86,8 @@ public class DepartmentServiceImplIntegrationTest {
         createDepartmentRq.setName(DEVELOP);
         createDepartmentRq.setCreateDate(LocalDate.now());
         DepartmentEntity leadDepartment = new DepartmentEntity();
+        leadDepartment.setName("dev");
+        leadDepartment.setCreateDate(LocalDate.now());
         DepartmentEntity saveLeadDepartment = departmentRepository.save(leadDepartment);
         Long leadDepartmentId = saveLeadDepartment.getId();
         createDepartmentRq.setLeadId(leadDepartmentId);
@@ -102,10 +104,11 @@ public class DepartmentServiceImplIntegrationTest {
 
     @Test
     public void renameDepartmentSuccessful() {
-        DepartmentEntity departmentEntity = new DepartmentEntity();
+        DepartmentEntity department = new DepartmentEntity();
         String departmentName = DEVELOP;
-        departmentEntity.setName(departmentName);
-        DepartmentEntity saveDepartmentEntity = departmentRepository.save(departmentEntity);
+        department.setName(departmentName);
+        department.setCreateDate(LocalDate.now());
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(department);
         RenameDepartmentRq renameDepartmentRq = new RenameDepartmentRq();
         Long saveDepartmentEntityId = saveDepartmentEntity.getId();
         renameDepartmentRq.setId(saveDepartmentEntityId);
@@ -130,8 +133,11 @@ public class DepartmentServiceImplIntegrationTest {
 
     @Test
     public void removeDepartmentSuccessful() {
-        DepartmentEntity saveDepartmentEntity = departmentRepository.save(new DepartmentEntity());
-        Long id = saveDepartmentEntity.getId();
+        DepartmentEntity department = new DepartmentEntity();
+        department.setName("dev");
+        department.setCreateDate(LocalDate.now());
+        DepartmentEntity saveDepartment = departmentRepository.save(department);
+        Long id = saveDepartment.getId();
 
         departmentService.removeDepartment(id);
 
@@ -147,10 +153,12 @@ public class DepartmentServiceImplIntegrationTest {
 
     @Test
     public void getDepartmentInfoSuccessful() {
-        DepartmentEntity saveDepartmentEntity = departmentRepository.save(new DepartmentEntity());
-        Long id = saveDepartmentEntity.getId();
+        DepartmentEntity department = new DepartmentEntity();
+        department.setName("dev");
+        department.setCreateDate(LocalDate.now());
+        DepartmentEntity saveDepartment = departmentRepository.save(department);
 
-        GetDepartmentInfo getDepartmentInfo = departmentService.getDepartmentInfo(id);
+        GetDepartmentInfo getDepartmentInfo = departmentService.getDepartmentInfo(saveDepartment.getId());
 
         assertNotNull(getDepartmentInfo);
     }
@@ -164,10 +172,12 @@ public class DepartmentServiceImplIntegrationTest {
 
     @Test
     public void getDirectSubordinatesDepartmentsSuccessful() {
-        DepartmentEntity departmentEntity = new DepartmentEntity();
+        DepartmentEntity department = new DepartmentEntity();
         List<DepartmentEntity> subordinatesDepartments = Collections.singletonList(new DepartmentEntity());
-        departmentEntity.setSubordinatesDepartments(subordinatesDepartments);
-        DepartmentEntity saveDepartmentEntity = departmentRepository.save(departmentEntity);
+        department.setSubordinatesDepartments(subordinatesDepartments);
+        department.setName("dev");
+        department.setCreateDate(LocalDate.now());
+        DepartmentEntity saveDepartmentEntity = departmentRepository.save(department);
         Long id = saveDepartmentEntity.getId();
 
         List<GetDepartmentInfo> directSubordinatesDepartments =
@@ -193,6 +203,8 @@ public class DepartmentServiceImplIntegrationTest {
         List<DepartmentEntity> firstLevelSubordinatesDepartments =
                 Collections.singletonList(firstLevelDepartment);
         DepartmentEntity targetDepartment = new DepartmentEntity();
+        targetDepartment.setName("dev");
+        targetDepartment.setCreateDate(LocalDate.now());
         targetDepartment.setSubordinatesDepartments(firstLevelSubordinatesDepartments);
         DepartmentEntity saveDepartmentEntity = departmentRepository.save(targetDepartment);
         Long id = saveDepartmentEntity.getId();
@@ -214,6 +226,8 @@ public class DepartmentServiceImplIntegrationTest {
         List<DepartmentEntity> firstLevelSubordinatesDepartments = Arrays.asList(firstLevelDepartment, duplicate);
         DepartmentEntity targetDepartment = new DepartmentEntity();
         targetDepartment.setSubordinatesDepartments(firstLevelSubordinatesDepartments);
+        targetDepartment.setName("name");
+        targetDepartment.setCreateDate(LocalDate.now());
         DepartmentEntity saveDepartmentEntity = departmentRepository.save(targetDepartment);
         Long id = saveDepartmentEntity.getId();
 
@@ -233,11 +247,17 @@ public class DepartmentServiceImplIntegrationTest {
         DepartmentEntity targetDepartment = new DepartmentEntity();
         DepartmentEntity oldLeadDepartment = new DepartmentEntity();
         targetDepartment.setLeadDepartment(oldLeadDepartment);
+        targetDepartment.setName("target");
+        targetDepartment.setCreateDate(LocalDate.now());
         oldLeadDepartment.setSubordinatesDepartments(new ArrayList<>());
+        oldLeadDepartment.setName("oldLead");
+        oldLeadDepartment.setCreateDate(LocalDate.now());
         DepartmentEntity saveTargetDepartment = departmentRepository.save(targetDepartment);
         Long saveTargetDepartmentId = saveTargetDepartment.getId();
         DepartmentEntity newLeadDepartment = new DepartmentEntity();
         newLeadDepartment.setSubordinatesDepartments(new ArrayList<>());
+        newLeadDepartment.setName("newLead");
+        newLeadDepartment.setCreateDate(LocalDate.now());
         DepartmentEntity saveNewLeadDepartment = departmentRepository.save(newLeadDepartment);
         long saveNewLeadDepartmentId = saveNewLeadDepartment.getId();
         ChangeLeaderDepartmentRq changeLeaderDepartmentRq = new ChangeLeaderDepartmentRq();
@@ -268,7 +288,10 @@ public class DepartmentServiceImplIntegrationTest {
 
     @Test
     public void getLeadEmptyDepartments() {
-        DepartmentEntity saveDepartment = departmentRepository.save(new DepartmentEntity());
+        DepartmentEntity department = new DepartmentEntity();
+        department.setName("dev");
+        department.setCreateDate(LocalDate.now());
+        DepartmentEntity saveDepartment = departmentRepository.save(department);
 
         List<GetDepartmentInfo> leadDepartments = departmentService.getLeadDepartments(saveDepartment.getId());
 
@@ -278,7 +301,11 @@ public class DepartmentServiceImplIntegrationTest {
     @Test
     public void getLeadDepartments() {
         DepartmentEntity department = new DepartmentEntity();
+        department.setName("dev");
+        department.setCreateDate(LocalDate.now());
         DepartmentEntity leadDepartment = new DepartmentEntity();
+        leadDepartment.setName("dev");
+        leadDepartment.setCreateDate(LocalDate.now());
         leadDepartment.setLeadDepartment(new DepartmentEntity());
         departmentRepository.save(leadDepartment);
         department.setLeadDepartment(leadDepartment);
@@ -294,6 +321,7 @@ public class DepartmentServiceImplIntegrationTest {
     public void getDepartment() {
         DepartmentEntity department = new DepartmentEntity();
         department.setName(DEVELOP);
+        department.setCreateDate(LocalDate.now());
         departmentRepository.save(department);
 
         GetDepartmentInfo getDepartmentInfo = departmentService.getDepartment(department.getName());
