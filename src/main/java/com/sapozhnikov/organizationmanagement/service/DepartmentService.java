@@ -1,6 +1,6 @@
 package com.sapozhnikov.organizationmanagement.service;
 
-import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.RenameDepartmentRq;

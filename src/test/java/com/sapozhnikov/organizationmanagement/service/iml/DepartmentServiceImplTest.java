@@ -3,7 +3,7 @@ package com.sapozhnikov.organizationmanagement.service.iml;
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
-import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
 import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
@@ -19,7 +19,6 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

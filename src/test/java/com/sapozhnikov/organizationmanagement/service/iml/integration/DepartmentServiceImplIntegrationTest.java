@@ -3,7 +3,7 @@ package com.sapozhnikov.organizationmanagement.service.iml.integration;
 import com.sapozhnikov.organizationmanagement.db.entity.DepartmentEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.DepartmentRepository;
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
-import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
 import com.sapozhnikov.organizationmanagement.web.dto.department.ChangeLeaderDepartmentRq;
@@ -31,7 +31,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 @DataJpaTest

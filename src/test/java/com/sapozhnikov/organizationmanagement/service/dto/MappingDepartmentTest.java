@@ -5,6 +5,7 @@ import com.sapozhnikov.organizationmanagement.db.entity.EmployeeEntity;
 import com.sapozhnikov.organizationmanagement.service.iml.DepartmentServiceImpl;
 import com.sapozhnikov.organizationmanagement.utils.exception.ApiException;
 import com.sapozhnikov.organizationmanagement.web.dto.department.CreateDepartmentRq;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetLeaderDepartmentRs;
 import org.junit.Test;
 

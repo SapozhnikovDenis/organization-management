@@ -1,7 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.service.DepartmentService;
-import com.sapozhnikov.organizationmanagement.service.dto.GetDepartmentInfo;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetDepartmentInfo;
 import com.sapozhnikov.organizationmanagement.web.dto.department.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 
 @Api
