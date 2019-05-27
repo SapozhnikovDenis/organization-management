@@ -16,7 +16,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public GetSalaryDepartmentRs getSalaryFullDepartment(Long departmentId) {
-        double sumSalary = employeeRepository.findAllByDepartment_Id(departmentId).stream()
+        double sumSalary = employeeRepository.findAllByDepartmentId(departmentId).stream()
                 .mapToDouble(employee -> employee.getSalary().doubleValue())
                 .sum();
         return new GetSalaryDepartmentRs(BigDecimal.valueOf(sumSalary));

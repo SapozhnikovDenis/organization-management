@@ -36,7 +36,7 @@ public class EmployeeServiceImplTest {
         firstEmployee.setSalary(BigDecimal.valueOf(200000.200D));
         EmployeeEntity secondEmployee = new EmployeeEntity();
         secondEmployee.setSalary(BigDecimal.valueOf(300000.300D));
-        when(employeeRepository.findAllByDepartment_Id(departmentId))
+        when(employeeRepository.findAllByDepartmentId(departmentId))
                 .thenReturn(Arrays.asList(firstEmployee, secondEmployee));
 
         GetSalaryDepartmentRs salaryFullDepartment = employeeService.getSalaryFullDepartment(departmentId);

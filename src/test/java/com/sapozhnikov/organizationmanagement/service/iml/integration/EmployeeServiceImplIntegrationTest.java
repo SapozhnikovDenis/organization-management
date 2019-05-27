@@ -8,30 +8,22 @@ import com.sapozhnikov.organizationmanagement.service.EmployeeService;
 import com.sapozhnikov.organizationmanagement.service.iml.EmployeeServiceImpl;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetSalaryDepartmentRs;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(replace = NONE)
-@ContextConfiguration(initializers = {EmployeeServiceImplIntegrationTest.Initializer.class})
-public class EmployeeServiceImplIntegrationTest {
+@ContextConfiguration(initializers = {Initializer.PostgreSQLContainerInitializer.class})
+public class EmployeeServiceImplIntegrationTest extends Initializer {
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -43,19 +35,6 @@ public class EmployeeServiceImplIntegrationTest {
     @Before
     public void setUp() {
         employeeService = new EmployeeServiceImpl(employeeRepository);
-    }
-
-    @ClassRule
-    public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer();
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
     }
 
     @Test
