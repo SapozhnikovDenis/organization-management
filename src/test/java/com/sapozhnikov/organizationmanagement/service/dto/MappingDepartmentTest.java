@@ -44,6 +44,7 @@ public class MappingDepartmentTest extends DepartmentServiceImpl {
     @Test
     public void mapToGetDepartmentInfo() {
         DepartmentEntity departmentEntity = new DepartmentEntity();
+        departmentEntity.setId(123L);
         departmentEntity.setName(NAME);
         departmentEntity.setCreateDate(LocalDate.now());
         EmployeeEntity lead = new EmployeeEntity();
@@ -54,6 +55,7 @@ public class MappingDepartmentTest extends DepartmentServiceImpl {
         GetDepartmentInfo getDepartmentInfo =
                 mapToGetDepartmentInfo(departmentEntity);
 
+        assertEquals(departmentEntity.getId(), getDepartmentInfo.getId());
         assertEquals(departmentEntity.getName(), getDepartmentInfo.getName());
         assertEquals(departmentEntity.getCreateDate(), getDepartmentInfo.getCreateDate());
         assertEquals(Long.valueOf(employees.size()), getDepartmentInfo.getEmployeeCount());

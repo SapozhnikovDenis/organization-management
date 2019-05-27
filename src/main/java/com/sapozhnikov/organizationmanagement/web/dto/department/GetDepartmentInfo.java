@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class GetDepartmentInfo {
+    @ApiModelProperty(value = "id department", example = "12345", required = true)
+    private Long id;
     @NotBlank
     @ApiModelProperty(value = "name department", example = "development", required = true)
     private String name;

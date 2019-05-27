@@ -150,6 +150,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     protected GetDepartmentInfo mapToGetDepartmentInfo(DepartmentEntity departmentEntity) {
         GetDepartmentInfo getDepartmentInfo = new GetDepartmentInfo();
+        getDepartmentInfo.setId(departmentEntity.getId());
         getDepartmentInfo.setName(departmentEntity.getName());
         getDepartmentInfo.setCreateDate(departmentEntity.getCreateDate());
         List<EmployeeEntity> employees = departmentEntity.getEmployees();
