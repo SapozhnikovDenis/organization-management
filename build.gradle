@@ -26,6 +26,7 @@ dependencies {
     compile 'org.hibernate:hibernate-envers'
     testCompile 'org.testcontainers:testcontainers:1.11.2'
     testCompile 'org.testcontainers:postgresql:1.10.6'
+    testCompile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.2.3-1'
     compile 'org.postgresql:postgresql:42.2.5'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

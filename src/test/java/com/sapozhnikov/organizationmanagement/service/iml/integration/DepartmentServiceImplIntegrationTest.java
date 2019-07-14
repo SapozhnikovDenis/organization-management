@@ -30,6 +30,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
+@AutoConfigureTestDatabase(replace = NONE)
 @ContextConfiguration(initializers = {Initializer.PostgreSQLContainerInitializer.class})
 public class DepartmentServiceImplIntegrationTest extends Initializer {
 
