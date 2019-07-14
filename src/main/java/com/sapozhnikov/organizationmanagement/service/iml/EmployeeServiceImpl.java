@@ -33,8 +33,15 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public EmployeeDto createEmployee(EmployeeDto employee) {
+        EmployeeEntity employeeEntity = employeeRepository.save(mapToEmployeeEntity(employee));
+        return mapToEmployeeDto(employeeEntity);
+    }
+
     protected EmployeeDto mapToEmployeeDto(EmployeeEntity employeeEntity) {
         EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(employeeEntity.getId());
         employeeDto.setFirstName(employeeEntity.getFirstName());
         employeeDto.setSecondName(employeeEntity.getSecondName());
         employeeDto.setMiddleName(employeeEntity.getMiddleName());
@@ -48,5 +55,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDto.setSalary(employeeEntity.getSalary());
         employeeDto.setSex(employeeEntity.getSex());
         return employeeDto;
+    }
+
+    protected EmployeeEntity mapToEmployeeEntity(EmployeeDto employeeDto) {
+        EmployeeEntity employeeEntity = new EmployeeEntity();
+        employeeEntity.setId(employeeDto.getId());
+        employeeEntity.setFirstName(employeeDto.getFirstName());
+        employeeEntity.setSecondName(employeeDto.getSecondName());
+        employeeEntity.setMiddleName(employeeDto.getMiddleName());
+        employeeEntity.setBirthDate(employeeDto.getBirthDate());
+        employeeEntity.setDismissalDate(employeeDto.getDismissalDate());
+        employeeEntity.setEmail(employeeDto.getEmail());
+        employeeEntity.setEmploymentDate(employeeDto.getEmploymentDate());
+        employeeEntity.setLeadInDepartment(employeeDto.getLeadInDepartment());
+        employeeEntity.setPhone(employeeDto.getPhone());
+        employeeEntity.setPosition(employeeDto.getPosition());
+        employeeEntity.setSalary(employeeDto.getSalary());
+        employeeEntity.setSex(employeeDto.getSex());
+        return employeeEntity;
     }
 }

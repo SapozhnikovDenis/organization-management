@@ -7,6 +7,7 @@ import com.sapozhnikov.organizationmanagement.db.repository.EmployeeRepository;
 import com.sapozhnikov.organizationmanagement.service.EmployeeService;
 import com.sapozhnikov.organizationmanagement.service.iml.EmployeeServiceImpl;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetSalaryDepartmentRs;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.EmployeeDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +20,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertEquals;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
+
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
@@ -77,5 +83,28 @@ public class EmployeeServiceImplIntegrationTest extends Initializer {
         GetSalaryDepartmentRs salaryFullDepartment = employeeService.getSalaryFullDepartment(saveDepartment.getId());
 
         assertEquals(firstEmployee.getSalary().add(secondEmployee.getSalary()), salaryFullDepartment.getSalary());
+    }
+
+
+    @Test
+    public void createEmployee() {
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setFirstName("FirstName");
+        employeeDto.setSecondName("SecondName");
+        employeeDto.setMiddleName("MiddleName");
+        employeeDto.setBirthDate(LocalDate.now());
+        employeeDto.setDismissalDate(LocalDate.now());
+        employeeDto.setEmail("Email");
+        employeeDto.setEmploymentDate(LocalDate.now());
+        employeeDto.setLeadInDepartment(true);
+        employeeDto.setPhone("Phone");
+        employeeDto.setSalary(BigDecimal.ONE);
+        employeeDto.setSex("Sex");
+        employeeDto.setPosition("Position");
+
+        EmployeeDto employeeDtoFromDb = employeeService.createEmployee(employeeDto);
+
+        assertNotNull(employeeDtoFromDb.getId());
+        assertTrue(employeeRepository.findById(employeeDtoFromDb.getId()).isPresent());
     }
 }

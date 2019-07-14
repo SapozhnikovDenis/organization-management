@@ -19,6 +19,7 @@ public class MappingEmployeeTest extends EmployeeServiceImpl {
     @Test
     public void mapToEmployeeDto() {
         EmployeeEntity employeeEntity = new EmployeeEntity();
+        employeeEntity.setId(123L);
         employeeEntity.setFirstName("FirstName");
         employeeEntity.setSecondName("SecondName");
         employeeEntity.setMiddleName("MiddleName");
@@ -30,9 +31,11 @@ public class MappingEmployeeTest extends EmployeeServiceImpl {
         employeeEntity.setPhone("Phone");
         employeeEntity.setSalary(BigDecimal.ONE);
         employeeEntity.setSex("Sex");
+        employeeEntity.setPosition("Position");
 
         EmployeeDto employeeDto = mapToEmployeeDto(employeeEntity);
 
+        assertEquals(employeeDto.getId(), employeeEntity.getId());
         assertEquals(employeeEntity.getFirstName(), employeeDto.getFirstName());
         assertEquals(employeeEntity.getSecondName(), employeeDto.getSecondName());
         assertEquals(employeeEntity.getMiddleName(), employeeDto.getMiddleName());
@@ -44,5 +47,40 @@ public class MappingEmployeeTest extends EmployeeServiceImpl {
         assertEquals(employeeEntity.getPhone(), employeeDto.getPhone());
         assertEquals(employeeEntity.getSalary(), employeeDto.getSalary());
         assertEquals(employeeEntity.getSex(), employeeDto.getSex());
+        assertEquals(employeeEntity.getPosition(), employeeDto.getPosition());
+    }
+
+    @Test
+    public void mapToEmployeeEntity() {
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(123L);
+        employeeDto.setFirstName("FirstName");
+        employeeDto.setSecondName("SecondName");
+        employeeDto.setMiddleName("MiddleName");
+        employeeDto.setBirthDate(LocalDate.now());
+        employeeDto.setDismissalDate(LocalDate.now());
+        employeeDto.setEmail("Email");
+        employeeDto.setEmploymentDate(LocalDate.now());
+        employeeDto.setLeadInDepartment(true);
+        employeeDto.setPhone("Phone");
+        employeeDto.setSalary(BigDecimal.ONE);
+        employeeDto.setSex("Sex");
+        employeeDto.setPosition("Position");
+
+        EmployeeEntity employeeEntity = mapToEmployeeEntity(employeeDto);
+
+        assertEquals(employeeDto.getId(), employeeEntity.getId());
+        assertEquals(employeeDto.getFirstName(), employeeEntity.getFirstName());
+        assertEquals(employeeDto.getSecondName(), employeeEntity.getSecondName());
+        assertEquals(employeeDto.getMiddleName(), employeeEntity.getMiddleName());
+        assertEquals(employeeDto.getBirthDate(), employeeEntity.getBirthDate());
+        assertEquals(employeeDto.getDismissalDate(), employeeEntity.getDismissalDate());
+        assertEquals(employeeDto.getEmail(), employeeEntity.getEmail());
+        assertEquals(employeeDto.getEmploymentDate(), employeeEntity.getEmploymentDate());
+        assertEquals(employeeDto.getLeadInDepartment(), employeeEntity.getLeadInDepartment());
+        assertEquals(employeeDto.getPhone(), employeeEntity.getPhone());
+        assertEquals(employeeDto.getSalary(), employeeEntity.getSalary());
+        assertEquals(employeeDto.getSex(), employeeEntity.getSex());
+        assertEquals(employeeDto.getPosition(), employeeEntity.getPosition());
     }
 }

@@ -4,6 +4,7 @@ import com.sapozhnikov.organizationmanagement.db.entity.EmployeeEntity;
 import com.sapozhnikov.organizationmanagement.db.repository.EmployeeRepository;
 import com.sapozhnikov.organizationmanagement.service.EmployeeService;
 import com.sapozhnikov.organizationmanagement.web.dto.department.GetSalaryDepartmentRs;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.EmployeeDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -42,5 +44,14 @@ public class EmployeeServiceImplTest {
         GetSalaryDepartmentRs salaryFullDepartment = employeeService.getSalaryFullDepartment(departmentId);
 
         assertEquals(firstEmployee.getSalary().add(secondEmployee.getSalary()), salaryFullDepartment.getSalary());
+    }
+
+    @Test
+    public void createEmployee() {
+        when(employeeRepository.save(any())).thenReturn(new EmployeeEntity());
+
+        EmployeeDto employee = employeeService.createEmployee(new EmployeeDto());
+
+        assertNotNull(employee);
     }
 }

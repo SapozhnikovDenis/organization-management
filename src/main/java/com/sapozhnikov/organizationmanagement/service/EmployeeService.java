@@ -9,4 +9,6 @@ public interface EmployeeService {
     GetSalaryDepartmentRs getSalaryFullDepartment(Long id);
 
     List<EmployeeDto> getEmployeesInDepartment(Long departmentId);
+
+    EmployeeDto createEmployee(EmployeeDto employee);
 }

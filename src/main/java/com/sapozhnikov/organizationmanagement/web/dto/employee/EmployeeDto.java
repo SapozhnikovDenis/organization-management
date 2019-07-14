@@ -15,6 +15,8 @@ import java.time.LocalDate;
 @ApiModel
 @NoArgsConstructor
 public class EmployeeDto {
+    @ApiModelProperty(value = "id", example = "123456", required = true)
+    private Long id;
     @NotBlank
     @ApiModelProperty(value = "first name", example = "Karl", required = true)
     private String firstName;

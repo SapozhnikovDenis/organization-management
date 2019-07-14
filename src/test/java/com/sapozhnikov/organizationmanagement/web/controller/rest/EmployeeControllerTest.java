@@ -1,6 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
 import com.sapozhnikov.organizationmanagement.service.EmployeeService;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.EmployeeDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,6 +52,8 @@ public class EmployeeControllerTest {
 
     @Test
     public void createEmployeeNotValidJson() throws Exception {
+        when(employeeService.createEmployee(any()))
+                .thenReturn(new EmployeeDto());
         String json = TestUtils.readFile("/json/request/employee/notValidEmployee.json");
         mockDepartmentController.perform(post("/api/v1/employee")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

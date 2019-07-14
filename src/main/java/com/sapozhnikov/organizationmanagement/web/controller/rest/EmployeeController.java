@@ -52,7 +52,7 @@ public class EmployeeController {
     public ResponseEntity<Void> createEmployee(@RequestBody @Valid
                                                    @ApiParam(value = "json create employee", required = true)
                                                        EmployeeDto employee) {
-        URI uri = URI.create("/api/v1/employee" + "/123");
+        URI uri = URI.create("/api/v1/employee/" + employeeService.createEmployee(employee).getId());
         return ResponseEntity.created(uri).build();
     }
 
