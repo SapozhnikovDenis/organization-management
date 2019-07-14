@@ -1,7 +1,12 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
+import com.sapozhnikov.organizationmanagement.service.EmployeeService;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -9,13 +14,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+@RunWith(SpringRunner.class)
 public class EmployeeControllerTest {
 
     private static final String DEVELOP_DEPARTMENT_ID = "123456789";
     private static final String EMPLOYEE_ID = "987654321";
 
-    private final MockMvc mockDepartmentController =
-            standaloneSetup(new EmployeeController()).build();
+    @Mock
+    private EmployeeService employeeService;
+
+    private MockMvc mockDepartmentController;
+
+    @Before
+    public void setUp() {
+        mockDepartmentController = standaloneSetup(new EmployeeController(employeeService)).build();
+    }
 
     @Test
     public void getEmployeesInDepartment() throws Exception {

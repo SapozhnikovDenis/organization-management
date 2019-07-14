@@ -14,10 +14,15 @@ import java.time.LocalDate;
 @Data
 @ApiModel
 @NoArgsConstructor
-public class Employee {
-    @NotNull
-    @ApiModelProperty(value = "name", required = true)
-    private NameRs name;
+public class EmployeeDto {
+    @NotBlank
+    @ApiModelProperty(value = "first name", example = "Karl", required = true)
+    private String firstName;
+    @NotBlank
+    @ApiModelProperty(value = "second name", example = "Karlov", required = true)
+    private String secondName;
+    @ApiModelProperty(value = "second name", example = "Karlovich")
+    private String middleName;
     @NotBlank
     @ApiModelProperty(value = "sex", example = "male", required = true)
     private String sex;

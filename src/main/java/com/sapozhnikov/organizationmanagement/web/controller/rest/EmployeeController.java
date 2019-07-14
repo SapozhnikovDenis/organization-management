@@ -1,9 +1,11 @@
 package com.sapozhnikov.organizationmanagement.web.controller.rest;
 
+import com.sapozhnikov.organizationmanagement.service.EmployeeService;
 import com.sapozhnikov.organizationmanagement.web.dto.employee.DismissEmployeeRq;
-import com.sapozhnikov.organizationmanagement.web.dto.employee.Employee;
+import com.sapozhnikov.organizationmanagement.web.dto.employee.EmployeeDto;
 import com.sapozhnikov.organizationmanagement.web.dto.employee.TransferEmployeeToDepartmentRq;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,25 +22,28 @@ import java.util.List;
 @Api
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
+
+    private final EmployeeService employeeService;
 
     @ApiOperation("get employees by department id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Employees successfully found",
-                    response = Employee.class, responseContainer = "List"),
+                    response = EmployeeDto.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Employees not found"),
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Employee>> getEmployeesInDepartment(@PathParam("departmentId") @NotNull
+    public List<EmployeeDto> getEmployeesInDepartment(@PathParam("departmentId") @NotNull
                                                                      @ApiParam(value = "id department", required = true)
                                                                                Long departmentId) {
-        return ResponseEntity.ok(Collections.singletonList(new Employee()));
+        return employeeService.getEmployeesInDepartment(departmentId);
     }
 
     @ApiOperation("create employee")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Employee successfully created"),
+            @ApiResponse(code = 201, message = "EmployeeDto successfully created"),
             @ApiResponse(code = 400, message = "Json not valid"),
             @ApiResponse(code = 415, message = "Service expect json")
     })
@@ -46,7 +51,7 @@ public class EmployeeController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> createEmployee(@RequestBody @Valid
                                                    @ApiParam(value = "json create employee", required = true)
-                                                           Employee employee) {
+                                                       EmployeeDto employee) {
         URI uri = URI.create("/api/v1/employee" + "/123");
         return ResponseEntity.created(uri).build();
     }
@@ -58,7 +63,7 @@ public class EmployeeController {
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> changeEmployee(@RequestBody @ApiParam(value = "json change employee", required = true)
-                                                           Employee employee,
+                                                       EmployeeDto employee,
                                                @PathVariable @ApiParam(value = "id employee", required = true)
                                                        Long id) {
         return ResponseEntity.ok().build();
@@ -80,12 +85,12 @@ public class EmployeeController {
     @ApiOperation("get employee by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Employees successfully found",
-                    response = Employee.class, responseContainer = "List"),
+                    response = EmployeeDto.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "Employees not found"),
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Employee> getEmployee(@PathVariable @ApiParam(value = "id employee", required = true) Long id) {
-        return ResponseEntity.ok(new Employee());
+    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable @ApiParam(value = "id employee", required = true) Long id) {
+        return ResponseEntity.ok(new EmployeeDto());
     }
 
     @ApiOperation("transfer employee to department")
