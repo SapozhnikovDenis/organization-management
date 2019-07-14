@@ -43,6 +43,8 @@ public class EmployeeControllerTest {
 
     @Test
     public void createEmployee() throws Exception {
+        when(employeeService.createEmployee(any()))
+                .thenReturn(new EmployeeDto());
         String json = TestUtils.readFile("/json/request/employee/employee.json");
         mockDepartmentController.perform(post("/api/v1/employee")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
