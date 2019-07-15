@@ -28,11 +28,7 @@ import static org.junit.Assert.assertTrue;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
 
-@DataJpaTest
-@RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(replace = NONE)
-@ContextConfiguration(initializers = {Initializer.PostgreSQLContainerInitializer.class})
-public class EmployeeServiceImplIntegrationTest extends Initializer {
+public class EmployeeServiceImplIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;

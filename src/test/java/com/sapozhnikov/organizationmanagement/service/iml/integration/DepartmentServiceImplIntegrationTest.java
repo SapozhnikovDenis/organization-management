@@ -28,11 +28,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
 
-@DataJpaTest
-@RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(replace = NONE)
-@ContextConfiguration(initializers = {Initializer.PostgreSQLContainerInitializer.class})
-public class DepartmentServiceImplIntegrationTest extends Initializer {
+
+public class DepartmentServiceImplIntegrationTest extends AbstractIntegrationTest {
 
     private static final String QA = "qa";
     private static final String DEVELOP = "develop";
