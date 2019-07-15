@@ -1,15 +1,13 @@
 {
-  "name": {
-    "first": "Karl",
-    "second": "Karlov",
-    "middle": "Karlovich"
-  },
+  "firstName": "Karl",
+  "secondName": "Karlov",
+  "middleName": "Karlovich",
   "sex": "male",
-  "birthDate" : "20.01.1989",
+  "birthDate": "20.01.1989",
   "phone": "89999999999",
   "email": "karl@gmail.com",
-  "employmentDate" : "20.01.2009",
-  "dismissalDate" : "20.01.2019",
+  "employmentDate": "20.01.2009",
+  "dismissalDate": "20.01.2019",
   "position": "developer",
   "salary": 200000,
   "leadInDepartment": true

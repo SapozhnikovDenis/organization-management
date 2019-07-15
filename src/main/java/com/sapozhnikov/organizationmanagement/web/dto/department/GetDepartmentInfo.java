@@ -1,7 +1,7 @@
 package com.sapozhnikov.organizationmanagement.web.dto.department;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
+import com.sapozhnikov.organizationmanagement.web.dto.department.GetLeaderDepartmentRs;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +12,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-@ApiModel
 @NoArgsConstructor
-public class GetDepartmentRs {
+public class GetDepartmentInfo {
+    @ApiModelProperty(value = "id department", example = "12345", required = true)
+    private Long id;
     @NotBlank
     @ApiModelProperty(value = "name department", example = "development", required = true)
     private String name;
